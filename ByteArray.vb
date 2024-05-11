@@ -165,17 +165,17 @@ Private Function ReadBigEndian(length As Integer) As Byte()
     End Function
 
 Public Function ReadByte() As SByte
-        Dim buffer As SByte = CSByte(inStream.ReadByte)
+        Dim buffer As SByte = CSByte(source.ReadByte)
         Return buffer
     End Function
 
 Public Sub ReadBytes(bytes As ByteArray, offset As UInteger, length As UInteger)
         Dim content As Byte() = New Byte(length - 1) {}
-        inStream.Read(content, offset, length)
+        source.Read(content, offset, length)
         bytes.WriteBytes(New ByteArray(content), 0, content.Length)
     End Sub
 Public Function ReadBoolean() As Boolean
-        Return inStream.ReadByte = 1
+        Return source.ReadByte = 1
     End Function
 
  Public Function ReadDouble() As Double
@@ -205,7 +205,7 @@ Public Function ReadFloat() As Single
     End Function
 
     Public Function ReadUnsignedByte() As Byte
-        Return CByte(inStream.ReadByte)
+        Return CByte(source.ReadByte)
     End Function
 
 Public Function ReadUnsignedInt() As UInteger
