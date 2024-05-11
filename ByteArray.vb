@@ -19,6 +19,7 @@ End Enum
 Public Enum ObjectEncodings
     AMF0 = 0
     AMF3 = 3
+    [DEFAULT] = 3
  End Enum   
 
 
@@ -79,6 +80,16 @@ Public Property Endian As Endians
             Return _endian
         End Get
     End Property
+
+ Public Property ObjectEncoding as ObjectEncodings
+         Set(value as ObjectEncoding)
+           _encoding = value
+            End Set
+            Get
+                return _encoding
+                End Get
+            End Property
+        
 
 Public sub Clear()
 Dim buffer as byte() = source.GetBuffer()
