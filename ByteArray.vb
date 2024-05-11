@@ -20,8 +20,8 @@ End Enum
 Public Class ByteArray
  
  Private source as MemoryStream = Nothing
- Private reader as BinaryReader = Nothing
- Private writer as BinaryWriter = Nothing
+ Private br as BinaryReader = Nothing
+ Private bw as BinaryWriter = Nothing
  Private _endian as Endians = Nothing 
  
   
@@ -140,5 +140,98 @@ Public sub inflate()
                 End Using
  End sub
 
+Private Function ReadLittleEndian(length As Integer) As Byte()
+        Return br.ReadBytes(length)
+    End Function
+
+Private Function ReadBigEndian(length As Integer) As Byte()
+        Dim little As Byte() = ReadLittleEndian(length)
+        Dim reverse As Byte() = New Byte(length - 1) {}
+        Dim i As Integer = length - 1, j As Integer = 0
+        While i >= 0
+            reverse(j) = little(i)
+            i -= 1
+            j += 1
+        End While
+        Return reverse
+    End Function
+            
+    Public Function ReadBytesEndian(length As Integer) As Byte()
+        If _endian = Endian.LITTLE_ENDIAN Then
+            Return ReadLittleEndian(length)
+        Else
+            Return ReadBigEndian(length)
+        End If
+    End Function
+
+Public Function ReadByte() As SByte
+        Dim buffer As SByte = CSByte(inStream.ReadByte)
+        Return buffer
+    End Function
+
+Public Sub ReadBytes(bytes As ByteArray, offset As UInteger, length As UInteger)
+        Dim content As Byte() = New Byte(length - 1) {}
+        inStream.Read(content, offset, length)
+        bytes.WriteBytes(New ByteArray(content), 0, content.Length)
+    End Sub
+Public Function ReadBoolean() As Boolean
+        Return inStream.ReadByte = 1
+    End Function
+
+ Public Function ReadDouble() As Double
+        Dim bytes As Byte() = ReadBytesEndian(8)
+        Return BitConverter.ToDouble(bytes, 0)
+    End Function
+
+Public Function ReadFloat() As Single
+        Dim bytes As Byte() = ReadBytesEndian(4)
+        Return BitConverter.ToSingle(bytes, 0)
+    End Function
+
+      Public Function ReadInt() As Integer
+        Dim bytes As Byte() = ReadBytesEndian(4)
+        Dim value As Integer = bytes(3) << 24 Or CInt(bytes(2)) << 16 Or CInt(bytes(1)) << 8 Or bytes(0)
+        Return value
+    End Function
+
+    Public Function ReadMultiByte(length As UInteger, charset As String) As String
+        Dim bytes As Byte() = ReadBytesEndian(CInt(length))
+        Return Encoding.GetEncoding(charset).GetString(bytes)
+    End Function       
+            
+  Public Function ReadShort() As Short
+        Dim bytes As Byte() = ReadBytesEndian(2)
+        Return bytes(1) << 8 Or bytes(0)
+    End Function
+
+    Public Function ReadUnsignedByte() As Byte
+        Return CByte(inStream.ReadByte)
+    End Function
+
+Public Function ReadUnsignedInt() As UInteger
+        Dim bytes As Byte() = ReadBytesEndian(4)
+        Return BitConverter.ToUInt32(bytes, 0)
+    End Function
+
+   Public Function ReadUnsignedShort() As UShort
+        Dim bytes As Byte() = ReadBytesEndian(2)
+        Return BitConverter.ToUInt16(bytes, 0)
+    End Function
+
+ Public Function ReadUTFBytes(length As Integer) As String
+        If length = 0 Then
+            Return String.Empty
+        End If
+        Return New UTF8Encoding(False, True).GetString(br.ReadBytes(length))
+        ' Return Encoding.GetEncoding("GB2312").GetString(br.ReadBytes(length))
+        ' Return Encoding.GetEncoding("UTF-8", New EncoderReplacementFallback(String.Empty), New DecoderReplacementFallback(String.Empty)).GetString(br.ReadBytes(length))
+    End Function 
+            
+Public Function ReadUTF() As String
+        Dim length As Integer = ReadShort()
+        Return ReadUTFBytes(length)
+    End Function
+
+            
             
 End Class  
