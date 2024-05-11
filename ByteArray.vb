@@ -257,6 +257,18 @@ Public Function ReadUTF() As String
         Return ReadUTFBytes(length)
     End Function
 
+Public Function toJson(ByVal value As String) As t   
+            Dim jsonString As String = value
+            Dim obj As t = JsonSerializer.Deserialize(Of t)(jsonString)
+            Return obj
+    End Function   
+
+
+ Public Function toString() as string
+        return Encoding.Unicode.GetString(source.ToArray())                
+End Function
+                
+
 Public Sub Uncompress(ByVal Optional algorithm As CompressionAlgorithm = CompressionAlgorithm.Zlib)
         Select Case algorithm
             Case CompressionAlgorithm.Deflate
@@ -411,23 +423,6 @@ Public Sub WriteUTFBytes(value As String)
         WriteBigEndian(bytes)
     End Sub
             
-Public Function Stringify(Optional Indented As Boolean = True) as String        
-            Dim value as String = Encoding.Unicode.GetString(source.ToArray())
-            Dim options As New JsonSerializerOptions With {.WriteIndented = Indented}
-            Dim jsonString As String = JsonSerializer.Serialize(value, options)
-            Return jsonString
-    End Function
-
-Public Function toJson(ByVal value As String) As t   
-            Dim jsonString As String = value
-            Dim obj As t = JsonSerializer.Deserialize(Of t)(jsonString)
-            Return obj
-    End Function   
-
-
- Public Function toString() as string
-        return Encoding.Unicode.GetString(source.ToArray())                
-End Function
         
             
 End Class  
