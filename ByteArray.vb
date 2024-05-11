@@ -423,6 +423,26 @@ Public Sub WriteUTFBytes(value As String)
         WriteBigEndian(bytes)
     End Sub
             
-        
-            
+ Public Function ReadObject() as object
+            If ObjectEncoding = 3 Then
+          Dim amf3 as AMF3Helper = New AMF3Helper(source)
+                     return amf3.ReadObject()
+            Else 
+            Dim amf0 as AMF0Helper = New AMF0Helper(source)
+                     return amf0.ReadObject()   
+            End If                            
+End Function
+                                
+Public Sub WriteObject(obj as Object)
+If ObjectEncoding = 3 Then
+          Dim amf3 as AMF3Helper = New AMF3Helper(source)
+                 amf3.WriteObject(obj)
+            Else 
+            Dim amf0 as AMF0Helper = New AMF0Helper(source)
+                 amf0.WriteObject(obj)   
+            End If
+
+ End Sub
+
+                                
 End Class  
