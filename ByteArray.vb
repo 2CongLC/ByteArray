@@ -117,6 +117,28 @@ Public Sub Compress(ByVal Optional algorithm As CompressionAlgorithm = Compressi
         End Select
         End Sub
 
+Public sub deflate()
+Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using dfs As IO.Compression.DeflateStream = New IO.Compression.DeflateStream(_outms, IO.Compression.CompressionMode.Compress, True)
+                            _inms.CopyTo(dfs)
+                        End Using
+                        source = _outms
+                    End Using
+                End Using
+End Sub
 
-  
+Public sub inflate()
+        source.Position = 0
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using dfs As IO.Compression.DeflateStream = New IO.Compression.DeflateStream(_inms, IO.Compression.CompressionMode.Decompress, False)
+                            dfs.CopyTo(_outms)
+                        End Using
+                        source = _outms
+                    End Using
+                End Using
+ End sub
+
+            
 End Class  
