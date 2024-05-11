@@ -6,6 +6,15 @@ Imports System.Text
 
 Public Class AFM3Helper
 
+Private _ms as MemoryStream = Nothing
+
+  Public Sub New(Byval ms as MemoryStream)
+
+    _ms = ms
+
+End Sub
+
+
 
 
 
