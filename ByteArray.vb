@@ -24,14 +24,22 @@ Public Class ByteArray(of t as class)
  Private bw as BinaryWriter = Nothing
  Private _endian as Endians = Nothing 
  
-  
+
+Public Sub New()
+    source = New MemoryStream()
+    source.Position = 0
+    br = New BinaryReader(source)
+    bw = New BinaryWriter(source)
+    _endian = Endian.LITTLE_ENDIAN
+ End Sub
+        
   Public Sub New(Byval buffer as Byte())
 
     source  = New MemoryStream()
     source.write(buffer,0,buffer.Length)
     source.Position = 0
-    reader = New BinaryReader(source)
-    writer = New BinaryWriter(source)
+    br = New BinaryReader(source)
+    bw = New BinaryWriter(source)
     _endian = Endian.LITTLE_ENDIAN
    
   End Sub
