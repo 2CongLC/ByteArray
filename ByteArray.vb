@@ -257,7 +257,59 @@ Public Function ReadUTF() As String
         Return ReadUTFBytes(length)
     End Function
 
-   Private Sub WriteLittleEndian(bytes As Byte())
+Public Sub Uncompress(ByVal Optional algorithm As CompressionAlgorithm = CompressionAlgorithm.Zlib)
+        Select Case algorithm
+            Case CompressionAlgorithm.Deflate
+                Position = 0
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using dfs As IO.Compression.DeflateStream = New IO.Compression.DeflateStream(_inms, IO.Compression.CompressionMode.Decompress, False)
+                            dfs.CopyTo(_outms)
+                        End Using
+                        source = _outms
+                        source.Position = 0
+                    End Using
+                End Using
+                Exit Select
+                  Case CompressionAlgorithm.Zlib
+                Position = 0
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outStream As MemoryStream = New MemoryStream()
+                        Using zls As IO.Compression.ZlibStream = New IO.Compression.ZlibStream(_inms, IO.Compression.CompressionMode.Decompress, False)
+                            zls.CopyTo(_outms)
+                        End Using
+
+                        source = _outms
+                        source.Position = 0
+                
+                    End Using
+                End Using
+                Exit Select
+        Case CompressionAlgorithm.LZMA
+                Position = 0
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Dim properties = New Byte(4) {}
+                        If _inms.Read(properties, 0, 5) <> 5 Then Throw (New Exception("input .lzma is too short"))
+                        Dim decoder As SevenZip.Compression.LZMA.Decoder = New SevenZip.Compression.LZMA.Decoder()
+                        decoder.SetDecoderProperties(properties)
+                        Dim outSize As Long = 0
+                        For i = 0 To 8 - 1
+                            Dim v As Integer = _inms.ReadByte()
+                            If v < 0 Then Throw (New Exception("Can't Read 1"))
+                            outSize = outSize Or CLng(v) << 8 * i
+                        Next
+                        Dim compressedSize = _inms.Length - _inms.Position
+                        decoder.Code(_inms, _outms, compressedSize, outSize, Nothing)
+                        source = _outms
+                        source.Position = 0
+                    End Using
+                End Using
+                Exit Select
+        End Select                                                                               
+End Sub
+                
+Private Sub WriteLittleEndian(bytes As Byte())
         If bytes Is Nothing Then
             Return
         End If
