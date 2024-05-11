@@ -23,15 +23,36 @@ Public Class ByteArray
 
     source  = New MemoryStream()
     source.write(buffer,0,buffer.Length)
-    source.Posion = 0
+    source.Position = 0
     reader = New BinaryReader(source)
     writer = New BinaryWriter(source)
     _endian = Endian.LITTLE_ENDIAN
    
   End Sub
 
+  Public ReadOnly Property Length As UInteger
+        Get
+            Return source.Length
+        End Get
+    End Property
   
- 
+ Public Property Position As UInteger
+        Get
+            Return source.Position
+        End Get
+        Set(value As UInteger)
+            source.Position = value
+        End Set
+    End Property
   
+    Public ReadOnly Property BytesAvailable As UInteger
+        Get
+            Return source.Length - source.Position
+        End Get
+    End Property
 
+
+
+
+  
 End Class  
