@@ -255,11 +255,11 @@ Public Function ReadUTF() As String
     End Sub
 
      Public Sub WriteBoolean(value As Boolean)
-        inStream.WriteByte(If(value, CByte(1), CByte(0)))
+        source.WriteByte(If(value, CByte(1), CByte(0)))
     End Sub   
 
     Public Sub WriteByte(value As SByte)
-        inStream.WriteByte(value)
+        source.WriteByte(value)
     End Sub
 
             
@@ -269,7 +269,7 @@ Public Sub WriteBytes(bytes As ByteArray, Optional offset As UInteger = 0, Optio
         If length = 0 Then
             length = currentlength
         End If
-        inStream.Write(bytes.ToArray(), offset, length)
+        source.Write(bytes.ToArray(), offset, length)
     End Sub
 
     Public Sub WriteDouble(value As Double)
@@ -316,7 +316,7 @@ Public Sub WriteUTFBytes(value As String)
     End Sub
 
  Public Sub WriteUnsignedByte(value As Byte)
-        inStream.WriteByte(value)
+        source.WriteByte(value)
     End Sub
 
       Public Sub WriteUnsignedInt(value As UInteger)
