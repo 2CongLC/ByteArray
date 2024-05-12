@@ -25,6 +25,8 @@ Public Sub New(Byval buffer as Byte())
 
     Dim filesize as ByteArray = New ByteArray()
     filesize.WriteBytes(source,4,4) 'Offset = 4, Length = 4
+    _filesize = filesize.toString()
+    
 
     
 End Sub
@@ -46,5 +48,38 @@ Public Property version as String
       Return _version
     End Get  
 End Property
+
+Public Property filesize as String
+    Set (value as String)
+      _filesize = value
+     End Set
+    Get
+      Return _filesize
+    End Get  
+End Property
+
+Public Function CompressCWS as Byte()
+
+Try 
+      
+ Dim vernew as integer = version
+ Dim sizenew as long 
+ Dim data as ByteArray = New ByteArray()
+ data.WriteBytes(source,8)
+ data.Compress()
+ sizenew = data.BytesAvailable
+
+ Dim buffer as ByteArray = New ByteArray()
+ buffer.WriteMultiByte("CWS", "us-ascii")
+ buffer.WriteByte(vernew)
+ buffer.WriteByte(sizenew)
+ buffer.WriteBytes(data)
+ Return buffer.ToArray()
+Catch ex as Exception
+
+End Try
+        
+End Sub    
+  
   
 End Class  
