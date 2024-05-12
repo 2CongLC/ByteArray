@@ -1,4 +1,6 @@
-﻿Public Class Form1
+﻿Imports System.IO
+
+Public Class Form1
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
             If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
@@ -91,9 +93,11 @@
             If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
 
                 Dim bytes As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
-
-
-
+                Dim header As ByteArray = New ByteArray()
+                header.WriteBytes(bytes, 3, 5)
+                Dim body As ByteArray = New ByteArray()
+                body.WriteBytes(bytes, 8)
+                body.Compress(CompressionAlgorithm.Zlib)
 
             End If
 
