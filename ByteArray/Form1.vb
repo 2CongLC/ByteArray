@@ -1,4 +1,6 @@
 ﻿Imports System.IO
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Tab
+
 
 Public Class Form1
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -185,27 +187,21 @@ Public Class Form1
 
             If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
 
-                Dim bytes As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+                Dim source As ByteArray = New ByteArray(File.ReadAllBytes(OpenFileDialog1.FileName))
+
+
                 Dim header As ByteArray = New ByteArray()
-                header.WriteBytes(bytes, 3, 5)
-                Dim body As ByteArray = New ByteArray()
-                body.WriteBytes(bytes, 8)
-                body.Uncompress(CompressionAlgorithm.LZMA)
+                header.WriteBytes(source, 3, 5)
+
                 Dim compressedLen As ByteArray = New ByteArray()
-                compressedLen.WriteBytes(bytes, 8, 4)
+                compressedLen.WriteBytes(source, 8, 4)
+
+
                 Dim lzmaprops As ByteArray = New ByteArray()
-                lzmaprops.WriteBytes(bytes, 12, 5)
-                Dim data As ByteArray = New ByteArray()
-                data.WriteBytes(bytes, 12)
+                lzmaprops.WriteBytes(source, 12, 5)
+                Dim properties As Byte() = lzmaprops.ToArray()
 
-                Dim buffer As ByteArray = New ByteArray()
-                buffer.WriteMultiByte("FWS", "us-ascii")
-                buffer.WriteBytes(header)
-                buffer.WriteBytes(compressedLen)
-                buffer.WriteBytes(lzmaprops)
-                buffer.WriteBytes(data)
 
-                IO.File.WriteAllBytes(SaveFileDialog1.FileName, buffer.ToArray())
 
                 MessageBox.Show("ok")
             End If

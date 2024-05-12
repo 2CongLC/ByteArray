@@ -188,7 +188,6 @@ Public Class ByteArray
                 _outms.Flush()
                 source = _outms
                 ' _outms.Close()
-
                 ' _inms.Close()
                 Exit Select
         End Select
