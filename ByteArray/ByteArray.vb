@@ -157,6 +157,16 @@ Public Class ByteArray
                     End Using
                 End Using
                 Exit Select
+            Case CompressionAlgorithm.Gzip
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using zls As IO.Compression.GZipStream = New IO.Compression.GZipStream(_outms, IO.Compression.CompressionMode.Compress, True)
+                            _inms.CopyTo(zls)
+                        End Using
+                        source = _outms
+                    End Using
+                End Using
+                Exit Select
             Case CompressionAlgorithm.Zlib
                 Using _inms As MemoryStream = New MemoryStream(source.ToArray())
                     Using _outms As MemoryStream = New MemoryStream()
@@ -323,6 +333,18 @@ Public Class ByteArray
                     End Using
                 End Using
                 Exit Select
+            Case CompressionAlgorithm.Gzip
+                Position = 0
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using zls As IO.Compression.GZipStream = New IO.Compression.GZipStream(_inms, IO.Compression.CompressionMode.Decompress, False)
+                            zls.CopyTo(_outms)
+                        End Using
+                        source = _outms
+                        source.Position = 0
+                    End Using
+                End Using
+                Exit Select
             Case CompressionAlgorithm.Zlib
                 Position = 0
                 Using _inms As MemoryStream = New MemoryStream(source.ToArray())
@@ -330,10 +352,8 @@ Public Class ByteArray
                         Using zls As IO.Compression.ZLibStream = New IO.Compression.ZLibStream(_inms, IO.Compression.CompressionMode.Decompress, False)
                             zls.CopyTo(_outms)
                         End Using
-
                         source = _outms
                         source.Position = 0
-
                     End Using
                 End Using
                 Exit Select
