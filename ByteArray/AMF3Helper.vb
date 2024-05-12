@@ -4,19 +4,21 @@ Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text
 
-Public Class AFM3Helper
+Public Class AMF3Helper
 
-Private _ms as MemoryStream = Nothing
+    Private _ms As MemoryStream = Nothing
 
-  Public Sub New(Byval ms as MemoryStream)
+    Public Sub New(ByVal ms As MemoryStream)
 
-    _ms = ms
+        _ms = ms
 
-End Sub
+    End Sub
+
+    Public Function ReadObject() As Object
+
+    End Function
 
 
 
 
-
-  
 End Class
