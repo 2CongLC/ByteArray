@@ -166,7 +166,7 @@ Public Class ByteArray
                 Dim coder As SevenZip.Compression.LZMA.Encoder = New SevenZip.Compression.LZMA.Encoder()
                 coder.SetCoderProperties(propIDs, properties)
                 coder.WriteCoderProperties(_outms)
-                _outms.Write(BitConverter.GetBytes(inStream.Length), 0, 8)     
+                _outms.Write(BitConverter.GetBytes(_inms.Length), 0, 8)     
                 coder.Code(_inms, _outms, _inms.Length, -1, Nothing)
                 _outms.flush()
                 _outms.Close()
