@@ -16,14 +16,15 @@ Public Sub New(Byval buffer as Byte())
     source = New ByteArray(buffer)
     
     Dim header as ByteArray = New ByteArray()
-    header.WriteBytes(source,0,3) ' Position = 0, Byte = 0, 1, 2
+    header.WriteBytes(source,0,3) ' Offset = 0, Length = 3
     _signature = header.toString()
 
     Dim version as ByteArray = New ByteArray()
-    version.WriteBytes(source,3,1) ' Position = 3, Byte = 3
+    version.WriteBytes(source,3,1) ' Offset = 3, Length = 1
     _version = version.toString()
 
-    
+    Dim filesize as ByteArray = New ByteArray()
+    filesize.WriteBytes(source,4,4) 'Offset = 4, Length = 4
 
     
 End Sub
@@ -37,6 +38,13 @@ Public Property signature as String
     End Get  
 End Property
 
-
+Public Property version as String
+    Set (value as String)
+      _version = value
+     End Set
+    Get
+      Return _version
+    End Get  
+End Property
   
 End Class  
