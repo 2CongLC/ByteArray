@@ -337,26 +337,29 @@ Public Class ByteArray
                 Exit Select
             Case CompressionAlgorithm.LZMA
                 Position = 0
-                Dim newInStream As MemoryStream = New MemoryStream(source.ToArray())
+                Dim _inms As MemoryStream = New MemoryStream(source.ToArray())
                 Dim coder As SevenZip.Compression.LZMA.Decoder = New SevenZip.Compression.LZMA.Decoder()
-                newInStream.Seek(0, 0)
-                Dim newOutStream As MemoryStream = New MemoryStream()
+                _inms.Seek(0, 0)
+                Dim _outms As MemoryStream = New MemoryStream()
                 Dim properties2 As Byte() = New Byte(4) {}
-                If newInStream.Read(properties2, 0, 5) <> 5 Then Throw (New Exception("input .lzma is too short"))
+                If _inms.Read(properties2, 0, 5) <> 5 Then Throw (New Exception("input .lzma is too short"))
                 Dim outSize As Long = 0
 
                 For i As Integer = 0 To 8 - 1
-                    Dim v As Integer = newInStream.ReadByte()
+                    Dim v As Integer = _inms.ReadByte()
                     If v < 0 Then Throw (New Exception("Can't Read 1"))
                     outSize = outSize Or CLng(v) << 8 * i
                 Next
 
                 coder.SetDecoderProperties(properties2)
-                Dim compressedSize As Long = newInStream.Length - newInStream.Position
-                coder.Code(newInStream, newOutStream, compressedSize, outSize, Nothing)
-                source = newOutStream
+                Dim compressedSize As Long = _inms.Length - _inms.Position
+                coder.Code(_inms, _outms, compressedSize, outSize, Nothing)
+                source = _outms
                 source.Position = 0
-
+                _outms.flush()
+                _outms.dispose()
+                _outms.close()
+                _inms.close()               
                 Exit Select
         End Select
     End Sub
