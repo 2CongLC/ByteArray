@@ -90,6 +90,25 @@
 
             If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
 
+                Dim bytes As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+
+
+
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        Try
+            OpenFileDialog1.Filter = "Flash File (*.swf)|*.swf|All Files (*.*)|*.*"
+            SaveFileDialog1.Filter = "Flash File (*.swf)|*.swf|All Files (*.*)|*.*"
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
             End If
 
         Catch ex As Exception
