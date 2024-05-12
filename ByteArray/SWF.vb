@@ -131,7 +131,7 @@ Try
       
  Dim data as ByteArray = New ByteArray()
  data.WriteBytes(source,12)
- data.UnCompress() 
+ data.UnCompress(CompressionAlgorithm.LZMA)
  Dim buffer as ByteArray = New ByteArray()
  buffer.WriteMultiByte("FWS", "us-ascii")
  buffer.WriteByte(version)
