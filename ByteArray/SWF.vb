@@ -79,7 +79,30 @@ Catch ex as Exception
 
 End Try
         
-End Sub    
+End Sub  
+
+ Public Function DeCompressCWS as Byte()
+
+Try 
+      
+ Dim vernew as integer = version
+ Dim sizenew as long 
+ Dim data as ByteArray = New ByteArray()
+ data.WriteBytes(source,8)
+ data.UnCompress()
+ sizenew = data.BytesAvailable
+
+ Dim buffer as ByteArray = New ByteArray()
+ buffer.WriteMultiByte("CWS", "us-ascii")
+ buffer.WriteByte(vernew)
+ buffer.WriteByte(sizenew)
+ buffer.WriteBytes(data)
+ Return buffer.ToArray()
+Catch ex as Exception
+
+End Try
+        
+End Sub     
   
   
 End Class  
