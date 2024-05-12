@@ -98,11 +98,18 @@ Public Class Form1
                 Dim body As ByteArray = New ByteArray()
                 body.WriteBytes(bytes, 8)
                 body.Compress(CompressionAlgorithm.Zlib)
+                Dim buffer As ByteArray = New ByteArray()
+                buffer.WriteMultiByte("CWS", "us-ascii")
+                buffer.WriteBytes(header)
+                buffer.WriteBytes(body)
+                Dim data As Byte() = buffer.ToArray()
+                IO.File.WriteAllBytes(SaveFileDialog1.FileName, data)
 
+                MessageBox.Show("ok")
             End If
 
         Catch ex As Exception
-
+            MessageBox.Show(ex.ToString())
         End Try
     End Sub
 
@@ -113,10 +120,29 @@ Public Class Form1
 
             If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
 
+                Dim bytes As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+                Dim header As ByteArray = New ByteArray()
+                header.WriteBytes(bytes, 3, 5)
+                Dim body As ByteArray = New ByteArray()
+                body.WriteBytes(bytes, 8)
+                body.Uncompress(CompressionAlgorithm.Zlib)
+                Dim buffer As ByteArray = New ByteArray()
+                buffer.WriteMultiByte("FWS", "us-ascii")
+                buffer.WriteBytes(header)
+                buffer.WriteBytes(body)
+                Dim data As Byte() = buffer.ToArray()
+                IO.File.WriteAllBytes(SaveFileDialog1.FileName, data)
+
+                MessageBox.Show("ok")
+
             End If
 
         Catch ex As Exception
-
+            MessageBox.Show(ex.ToString())
         End Try
     End Sub
+
+
+
+
 End Class
