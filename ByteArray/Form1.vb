@@ -155,16 +155,53 @@ Public Class Form1
                 Dim body As ByteArray = New ByteArray()
                 body.WriteBytes(bytes, 8)
                 body.Compress(CompressionAlgorithm.LZMA)
-                Dim compressedLen As Long = bytes.BytesAvailable
+                Dim compressedLen As Long = body.BytesAvailable
                 Dim lzmaprops As ByteArray = New ByteArray()
-                lzmaprops.WriteBytes(bytes, 0, 3)
+                lzmaprops.WriteBytes(body, 0, 3)
                 Dim data As ByteArray = New ByteArray()
-                data.WriteBytes(bytes, 12)
+                data.WriteBytes(body, 12)
 
                 Dim buffer As ByteArray = New ByteArray()
                 buffer.WriteMultiByte("ZWS", "us-ascii")
                 buffer.WriteBytes(header)
                 buffer.WriteByte(compressedLen)
+                buffer.WriteBytes(lzmaprops)
+                buffer.WriteBytes(data)
+
+                IO.File.WriteAllBytes(SaveFileDialog1.FileName, buffer.ToArray())
+
+                MessageBox.Show("ok")
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        Try
+            OpenFileDialog1.Filter = "Flash File (*.swf)|*.swf|All Files (*.*)|*.*"
+            SaveFileDialog1.Filter = "Flash File (*.swf)|*.swf|All Files (*.*)|*.*"
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim bytes As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+                Dim header As ByteArray = New ByteArray()
+                header.WriteBytes(bytes, 3, 5)
+                Dim body As ByteArray = New ByteArray()
+                body.WriteBytes(bytes, 8)
+                body.Uncompress(CompressionAlgorithm.LZMA)
+                Dim compressedLen As ByteArray = New ByteArray()
+                compressedLen.WriteBytes(bytes, 8, 4)
+                Dim lzmaprops As ByteArray = New ByteArray()
+                lzmaprops.WriteBytes(bytes, 12, 5)
+                Dim data As ByteArray = New ByteArray()
+                data.WriteBytes(bytes, 12)
+
+                Dim buffer As ByteArray = New ByteArray()
+                buffer.WriteMultiByte("FWS", "us-ascii")
+                buffer.WriteBytes(header)
+                buffer.WriteBytes(compressedLen)
                 buffer.WriteBytes(lzmaprops)
                 buffer.WriteBytes(data)
 

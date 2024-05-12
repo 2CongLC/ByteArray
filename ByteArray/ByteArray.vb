@@ -185,10 +185,11 @@ Public Class ByteArray
                 coder.WriteCoderProperties(_outms)
                 _outms.Write(BitConverter.GetBytes(_inms.Length), 0, 8)     
                 coder.Code(_inms, _outms, _inms.Length, -1, Nothing)
-                _outms.flush()
-                _outms.Close()
-               source = _outms    
-                _inms.Close()
+                _outms.Flush()
+                source = _outms
+                ' _outms.Close()
+
+                ' _inms.Close()
                 Exit Select
         End Select
     End Sub
@@ -401,7 +402,7 @@ Public Class ByteArray
         Next
     End Sub
     Friend Sub WriteBytesEndian(bytes As Byte())
-        If _endian = Endian.LITTLE_ENDIAN Then
+        If _endian = Endians.LITTLE_ENDIAN Then
             WriteLittleEndian(bytes)
         Else
             WriteBigEndian(bytes)
