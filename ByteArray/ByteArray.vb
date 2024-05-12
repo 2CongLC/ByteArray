@@ -161,22 +161,17 @@ Public Class ByteArray
                 End Using
                 Exit Select
             Case CompressionAlgorithm.LZMA
-                Dim inStream As MemoryStream = New MemoryStream(source.ToArray())
-                Dim outStream As MemoryStream = New MemoryStream()
+                Dim _inms As MemoryStream = New MemoryStream(source.ToArray())
+                Dim _outms As MemoryStream = New MemoryStream()
                 Dim coder As SevenZip.Compression.LZMA.Encoder = New SevenZip.Compression.LZMA.Encoder()
                 coder.SetCoderProperties(propIDs, properties)
-                coder.WriteCoderProperties(outStream)
-                Dim fileSize As Long = inStream.Length
-
-                For i As Integer = 0 To 8 - 1
-                    outStream.WriteByte(fileSize >> 8 * i)
-                Next
-
-                coder.Code(inStream, outStream, -1, -1, Nothing)
-                source = outStream
-
-                outStream.Close()
-                inStream.Close()
+                coder.WriteCoderProperties(_outms)
+                _outms.Write(BitConverter.GetBytes(inStream.Length), 0, 8)     
+                coder.Code(_inms, _outms, _inms.Length, -1, Nothing)
+                _outms.flush()
+                _outms.Close()
+               source = _outms    
+                _inms.Close()
                 Exit Select
         End Select
     End Sub
