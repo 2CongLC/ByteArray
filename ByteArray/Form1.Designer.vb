@@ -32,6 +32,7 @@ Partial Class Form1
         Button6 = New Button()
         Button7 = New Button()
         Button8 = New Button()
+        Button9 = New Button()
         SuspendLayout()
         ' 
         ' Button1
@@ -114,11 +115,21 @@ Partial Class Form1
         Button8.Text = "Uncompress Flash CWS"
         Button8.UseVisualStyleBackColor = True
         ' 
+        ' Button9
+        ' 
+        Button9.Location = New Point(278, 120)
+        Button9.Name = "Button9"
+        Button9.Size = New Size(218, 23)
+        Button9.TabIndex = 8
+        Button9.Text = "Compress Flash ZWS"
+        Button9.UseVisualStyleBackColor = True
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(800, 450)
+        Controls.Add(Button9)
         Controls.Add(Button8)
         Controls.Add(Button7)
         Controls.Add(Button6)
@@ -145,5 +156,6 @@ Partial Class Form1
     Friend WithEvents Button6 As Button
     Friend WithEvents Button7 As Button
     Friend WithEvents Button8 As Button
+    Friend WithEvents Button9 As Button
 
 End Class
