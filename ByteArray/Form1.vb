@@ -192,18 +192,13 @@ Public Class Form1
 
                 Dim header As ByteArray = New ByteArray()
                 header.WriteBytes(source, 3, 5)
+                Dim data As ByteArray = New ByteArray()
+                data.WriteBytes(source, 8)
 
-                Dim compressedLen As ByteArray = New ByteArray()
-                compressedLen.WriteBytes(source, 8, 4)
-
-
-                Dim lzmaprops As ByteArray = New ByteArray()
-                lzmaprops.WriteBytes(source, 12, 5)
-                Dim properties As Byte() = lzmaprops.ToArray()
-
-
+                IO.File.WriteAllBytes(SaveFileDialog1.FileName, data.ToArray())
 
                 MessageBox.Show("ok")
+
             End If
 
         Catch ex As Exception
