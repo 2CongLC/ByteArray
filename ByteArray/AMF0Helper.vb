@@ -1,11 +1,10 @@
-Imports System
+﻿Imports System
 Imports System.Collections
 Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text
 
-Public Class AMF3Helper
-
+Public Class AMF0Helper
     Private _ms As MemoryStream = Nothing
 
     Public Sub New(ByVal ms As MemoryStream)

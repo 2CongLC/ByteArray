@@ -4,7 +4,7 @@ Imports System.Text.Json
 Imports System.IO
 Imports System.IO.Compression
 Imports System.Runtime.Serialization.Json
-
+Imports SevenZip
 
 Public Enum Endians
     BIG_ENDIAN = 0
@@ -25,6 +25,39 @@ Public Enum ObjectEncodings
 
 Public Class ByteArray
 
+#Region "7zip"
+    Private dictionary As Integer = 1 << 21 ' 2 MB
+    Private posStateBits As Integer = 2
+    Private litContextBits As Integer = 3
+    Private litPosBits As Integer = 0
+    Private algorithm As Integer = 2
+
+    Private numFastBytes As Integer = 32
+    Private eos As Boolean = False
+    Private propIDs As SevenZip.CoderPropID() = {
+        SevenZip.CoderPropID.DictionarySize,
+        SevenZip.CoderPropID.PosStateBits,
+       SevenZip.CoderPropID.LitContextBits,
+        SevenZip.CoderPropID.LitPosBits,
+        SevenZip.CoderPropID.Algorithm,
+        SevenZip.CoderPropID.NumFastBytes,
+        SevenZip.CoderPropID.MatchFinder,
+        SevenZip.CoderPropID.EndMarker
+    }
+
+    Private properties As Object() = {
+        dictionary,
+        CType(posStateBits, Integer),
+        CType(litContextBits, Integer),
+        CType(litPosBits, Integer),
+        CType(algorithm, Integer),
+        CType(numFastBytes, Integer),
+        "bt4",
+        eos
+    }
+#End Region
+
+
     Private source As MemoryStream = Nothing
     Private br As BinaryReader = Nothing
     Private bw As BinaryWriter = Nothing
@@ -33,7 +66,6 @@ Public Class ByteArray
 
     Public Sub New()
         source = New MemoryStream()
-        source.Position = 0
         br = New BinaryReader(source)
         bw = New BinaryWriter(source)
         _endian = Endians.LITTLE_ENDIAN
@@ -97,6 +129,15 @@ Public Class ByteArray
         source.SetLength(0)
     End Sub
 
+    Public Function ToArray() As Byte()
+        Return source.ToArray()
+    End Function
+    Public Function GetBuffer() As Byte()
+        Return source.GetBuffer()
+    End Function
+
+
+
     Public Sub Compress(ByVal Optional algorithm As CompressionAlgorithm = CompressionAlgorithm.Zlib)
         Select Case algorithm
             Case CompressionAlgorithm.Deflate
@@ -112,7 +153,7 @@ Public Class ByteArray
             Case CompressionAlgorithm.Zlib
                 Using _inms As MemoryStream = New MemoryStream(source.ToArray())
                     Using _outms As MemoryStream = New MemoryStream()
-                        Using zls As IO.Compression.ZLibStream = New IO.Compression.ZLibStream(_outStream, IO.Compression.CompressionMode.Compress, True)
+                        Using zls As IO.Compression.ZLibStream = New IO.Compression.ZLibStream(_outms, IO.Compression.CompressionMode.Compress, True)
                             _inms.CopyTo(zls)
                         End Using
                         source = _outms
@@ -120,23 +161,22 @@ Public Class ByteArray
                 End Using
                 Exit Select
             Case CompressionAlgorithm.LZMA
-                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
-                    Using _outms As MemoryStream = New MemoryStream()
-                        Dim propIDs As SevenZip.CoderPropID() = {SevenZip.CoderPropID.DictionarySize, SevenZip.CoderPropID.PosStateBits, SevenZip.CoderPropID.LitContextBits, SevenZip.CoderPropID.LitPosBits, SevenZip.CoderPropID.Algorithm, SevenZip.CoderPropID.NumFastBytes, SevenZip.CoderPropID.MatchFinder, SevenZip.CoderPropID.EndMarker}
-                        Dim properties = {1 << 23, 2, 3, 0, 1, 128, "bt4", False}
-                        Dim encoder As SevenZip.Compression.LZMA.Encoder = New SevenZip.Compression.LZMA.Encoder()
-                        encoder.SetCoderProperties(propIDs, properties)
-                        encoder.WriteCoderProperties(_outms)
-                        Dim fileSize As Long = _inms.Length
-                        For i As Integer = 0 To 8 - 1
-                            _outms.WriteByte(fileSize >> 8 * i)
-                        Next
-                        _outms.Flush()
-                        encoder.Code(_inms, _outms, -1, -1, Nothing)
-                        _outms.Flush()
-                        source = _outms
-                    End Using
-                End Using
+                Dim inStream As MemoryStream = New MemoryStream(source.ToArray())
+                Dim outStream As MemoryStream = New MemoryStream()
+                Dim coder As SevenZip.Compression.LZMA.Encoder = New SevenZip.Compression.LZMA.Encoder()
+                coder.SetCoderProperties(propIDs, properties)
+                coder.WriteCoderProperties(outStream)
+                Dim fileSize As Long = inStream.Length
+
+                For i As Integer = 0 To 8 - 1
+                    outStream.WriteByte(fileSize >> 8 * i)
+                Next
+
+                coder.Code(inStream, outStream, -1, -1, Nothing)
+                source = outStream
+
+                outStream.Close()
+                inStream.Close()
                 Exit Select
         End Select
     End Sub
@@ -297,24 +337,26 @@ Public Class ByteArray
                 Exit Select
             Case CompressionAlgorithm.LZMA
                 Position = 0
-                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
-                    Using _outms As MemoryStream = New MemoryStream()
-                        Dim properties = New Byte(4) {}
-                        If _inms.Read(properties, 0, 5) <> 5 Then Throw (New Exception("input .lzma is too short"))
-                        Dim decoder As SevenZip.Compression.LZMA.Decoder = New SevenZip.Compression.LZMA.Decoder()
-                        decoder.SetDecoderProperties(properties)
-                        Dim outSize As Long = 0
-                        For i = 0 To 8 - 1
-                            Dim v As Integer = _inms.ReadByte()
-                            If v < 0 Then Throw (New Exception("Can't Read 1"))
-                            outSize = outSize Or CLng(v) << 8 * i
-                        Next
-                        Dim compressedSize = _inms.Length - _inms.Position
-                        decoder.Code(_inms, _outms, compressedSize, outSize, Nothing)
-                        source = _outms
-                        source.Position = 0
-                    End Using
-                End Using
+                Dim newInStream As MemoryStream = New MemoryStream(source.ToArray())
+                Dim coder As SevenZip.Compression.LZMA.Decoder = New SevenZip.Compression.LZMA.Decoder()
+                newInStream.Seek(0, 0)
+                Dim newOutStream As MemoryStream = New MemoryStream()
+                Dim properties2 As Byte() = New Byte(4) {}
+                If newInStream.Read(properties2, 0, 5) <> 5 Then Throw (New Exception("input .lzma is too short"))
+                Dim outSize As Long = 0
+
+                For i As Integer = 0 To 8 - 1
+                    Dim v As Integer = newInStream.ReadByte()
+                    If v < 0 Then Throw (New Exception("Can't Read 1"))
+                    outSize = outSize Or CLng(v) << 8 * i
+                Next
+
+                coder.SetDecoderProperties(properties2)
+                Dim compressedSize As Long = newInStream.Length - newInStream.Position
+                coder.Code(newInStream, newOutStream, compressedSize, outSize, Nothing)
+                source = newOutStream
+                source.Position = 0
+
                 Exit Select
         End Select
     End Sub
