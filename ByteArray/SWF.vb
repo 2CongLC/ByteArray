@@ -75,7 +75,7 @@ Catch ex as Exception
 
 End Try
         
-End Sub  
+End Function  
 
  Public Function DeCompressCWS as Byte()
 
@@ -83,7 +83,7 @@ Try
       
  Dim data as ByteArray = New ByteArray()
  data.WriteBytes(source,8)
- data.UnCompress() 
+ data.UnCompress()
  Dim buffer as ByteArray = New ByteArray()
  buffer.WriteMultiByte("FWS", "us-ascii")
  buffer.WriteByte(version)
@@ -94,7 +94,7 @@ Catch ex as Exception
 
 End Try
         
-End Sub     
+End Function     
   
 Public Function CompressZWS as Byte()
 
@@ -123,7 +123,26 @@ Catch ex as Exception
 
 End Try
         
-End Sub  
+End Function
+  
+Public Function DeCompressZWS as Byte()
 
+Try 
+      
+ Dim data as ByteArray = New ByteArray()
+ data.WriteBytes(source,12)
+ data.UnCompress() 
+ Dim buffer as ByteArray = New ByteArray()
+ buffer.WriteMultiByte("FWS", "us-ascii")
+ buffer.WriteByte(version)
+ buffer.WriteByte(filesize)
+ buffer.WriteBytes(data)
+ Return buffer.ToArray()
+Catch ex as Exception
+
+End Try
+        
+End Function
+  
   
 End Class  
