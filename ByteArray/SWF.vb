@@ -61,18 +61,14 @@ End Property
 Public Function CompressCWS as Byte()
 
 Try 
-      
- Dim vernew as integer = version
- Dim sizenew as long 
+       
  Dim data as ByteArray = New ByteArray()
  data.WriteBytes(source,8)
  data.Compress()
- sizenew = data.BytesAvailable
-
  Dim buffer as ByteArray = New ByteArray()
  buffer.WriteMultiByte("CWS", "us-ascii")
- buffer.WriteByte(vernew)
- buffer.WriteByte(sizenew)
+ buffer.WriteByte(version)
+ buffer.WriteByte(filesize)
  buffer.WriteBytes(data)
  Return buffer.ToArray()
 Catch ex as Exception
@@ -85,17 +81,13 @@ End Sub
 
 Try 
       
- Dim vernew as integer = version
- Dim sizenew as long 
  Dim data as ByteArray = New ByteArray()
  data.WriteBytes(source,8)
- data.UnCompress()
- sizenew = data.BytesAvailable
-
+ data.UnCompress() 
  Dim buffer as ByteArray = New ByteArray()
- buffer.WriteMultiByte("CWS", "us-ascii")
- buffer.WriteByte(vernew)
- buffer.WriteByte(sizenew)
+ buffer.WriteMultiByte("FWS", "us-ascii")
+ buffer.WriteByte(version)
+ buffer.WriteByte(filesize)
  buffer.WriteBytes(data)
  Return buffer.ToArray()
 Catch ex as Exception
@@ -104,5 +96,34 @@ End Try
         
 End Sub     
   
+Public Function CompressZWS as Byte()
+
+Try 
+       
+ Dim data as ByteArray = New ByteArray()
+ data.WriteBytes(source,8)
+ data.Compress(CompressionAlgorithm.LZMA)
+ Dim compressedLen As Long = data.BytesAvailable
+      
+Dim lzmaprops As ByteArray = New ByteArray()
+lzmaprops.WriteBytes(data, 0, 3)
+Dim lzmadata as ByteArray = New ByteArray()
+ lzmadata.WriteBytes(data,12)
+          
+ Dim buffer as ByteArray = New ByteArray()
+ buffer.WriteMultiByte("ZWS", "us-ascii")
+ buffer.WriteByte(version)
+ buffer.WriteByte(filesize)
+ buffer.WriteByte(compressedLen)
+ buffer.WriteBytes(lzmaprops)
+ buffer.WriteBytes(lzmadata)   
+
+ Return buffer.ToArray()
+Catch ex as Exception
+
+End Try
+        
+End Sub  
+
   
 End Class  
