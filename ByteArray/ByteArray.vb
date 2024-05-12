@@ -72,10 +72,15 @@ Public Class ByteArray
         _encoding = ObjectEncodings.AMF3
     End Sub
 
-    Public Sub New(ByVal buffer As Byte())
+    Public Sub New(ByVal buffer As Byte(),ByVal Optional position As Integer = 0, ByVal Optional length As Integer = -1)
 
+
+        If length = -1 Then
+            length = buffer.Length
+        End If
+        
         source = New MemoryStream()
-        source.Write(buffer, 0, buffer.Length)
+        source.Write(buffer, position, length)
         source.Position = 0
         br = New BinaryReader(source)
         bw = New BinaryWriter(source)
