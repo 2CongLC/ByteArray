@@ -144,5 +144,33 @@ End Try
         
 End Function
   
+Public Enum CompressTionTypes
+    CWS
+    ZWS
+End Enum
+    
+Public Sub Compress(Byval outFile as String,Byval CompressTionType as CompressTionTypes)
+
+ If CompressTionType = CompressTionTypes.CWS Then
+      
+    If (_signature = "FWS") AndAlso (_version >= 6) Then
+      IO.File.WriteAllBytes(outFile, CompressCWS)
+    End if
+      
+ Elseif CompressTionType = CompressTionTypes.ZWS Then
+  
+    If (_signature = "FWS") AndAlso (_version >=13) Then
+      IO.File.WriteAllBytes(outFile,CompressZWS) 
+    End if
+      
+  End if
+
+End Sub  
+
+
+
+
+
+
   
 End Class  
