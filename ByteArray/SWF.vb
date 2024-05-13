@@ -10,7 +10,7 @@ Private source as ByteArray
 Private _signature as string
 Private _version as integer
 Private _fileSize as integer
-Private _recstructure as byte()
+Private _framesize as byte()
 Private _framerate as byte()
 Private _framecount as byte()
 Private _tags as byte()
@@ -80,6 +80,22 @@ Public Property filesize as String
     End Get  
 End Property
 
+Public Function FrameSize  as Rectangle
+
+
+End Function 
+
+Public Function FrameRate  as Ushort
+
+    
+End Function
+  
+Public Function FrameCount as Ushort
+
+
+End Function
+
+    
   
 Private Function CompressCWS as Byte()
 
