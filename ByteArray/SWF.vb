@@ -58,7 +58,7 @@ Public Property filesize as String
     End Get  
 End Property
 
-Public Function CompressCWS as Byte()
+Private Function CompressCWS as Byte()
 
 Try 
        
@@ -77,7 +77,7 @@ End Try
         
 End Function  
 
- Public Function DeCompressCWS as Byte()
+Private Function DeCompressCWS as Byte()
 
 Try 
       
@@ -94,9 +94,9 @@ Catch ex as Exception
 
 End Try
         
-End Function     
+End Function    
   
-Public Function CompressZWS as Byte()
+Private Function CompressZWS as Byte()
 
 Try 
        
@@ -125,7 +125,7 @@ End Try
         
 End Function
   
-Public Function DeCompressZWS as Byte()
+Private Function DeCompressZWS as Byte()
 
 Try 
       
@@ -144,7 +144,7 @@ End Try
         
 End Function
   
-Public Enum CompressTionTypes
+Enum CompressTionTypes
     CWS
     ZWS
 End Enum
@@ -167,7 +167,15 @@ Public Sub Compress(Byval outFile as String,Byval CompressTionType as CompressTi
 
 End Sub  
 
+Public Sub DeCompress(Byval ouFile as String)
 
+    If _signature = "CWS" Then
+      IO.File.WriteAllBytes(ouFile, DeCompressCWS)
+      Elseif _signature = "ZWS" Then
+      IO.File.WriteAllBytes(outFile,DeCompressZWS)
+      End if
+
+ End Sub   
 
 
 
