@@ -53,32 +53,17 @@ End if
     
 End Sub
 
-Public Property Signature as String
-    Set (value as String)
-      _signature = value
-     End Set
-    Get
-      Return _signature
-    End Get  
-End Property
+Public Function Signature as String
+      Return _signature 
+End Function
 
-Public Property Version as integer
-    Set (value as String)
-      _version = value
-     End Set
-    Get
+Public Function Version as integer
       Return _version
-    End Get  
-End Property
+End Function
 
-Public Property Filesize as integer
-    Set (value as String)
-      _filesize = value
-     End Set
-    Get
+Public Function Filesize as integer
       Return _filesize
-    End Get  
-End Property
+End Function
 
 Public Function FrameSize  as Rectangle
 
