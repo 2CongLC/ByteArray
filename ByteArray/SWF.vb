@@ -70,14 +70,19 @@ Public Function FrameSize  as Rectangle
 
 End Function 
 
-Public Function FrameRate  as Ushort
-
-    
+Public Function FrameRate  as Double
+ Dim a as Byte = _framerate(0)
+ Dim b as Byte = _framerate(1)
+ Dim c as Double = (a + b) / 100
+    Return c    
 End Function
   
-Public Function FrameCount as Ushort
-
-
+Public Function FrameCount as Integer
+ Dim a as byte = _framecount(0)
+ Dim b as byte = _framecount(1)
+ Dim c as integer 
+    c += (a << 8 * )
+ Return c
 End Function
 
     
