@@ -25,7 +25,7 @@ Public Sub New(Byval buffer as Byte())
 
     Dim version as ByteArray = New ByteArray()
     version.WriteBytes(source,3,1) ' Offset = 3, Length = 1
-    _version = version.toString()
+    _version = version.ToArray()(0)
 
     Dim filesize as ByteArray = New ByteArray()
     filesize.WriteBytes(source,4,4) 'Offset = 4, Length = 4
