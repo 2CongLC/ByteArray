@@ -76,7 +76,25 @@ End Function
 
     
 Private Sub FrameSize()
+Dim b as integer = GetNextByte(_framesize)
+Dim nb as integer = b >> 3
+b = b and 7
+b <<= 5
+Dim cb as integer = 2
+Dim value as integer
+For numfield as integer = 0 to 4 - 1
+  value = 0
+  Dim bitcount as integer = 0  
+  While bitcount < nb
+      If (b And 128) = 128 Then
+        value = value + (1 << nb - bitcount - 1)
+        End if
+      b <<= 1
+      b = b And 255
 
+    
+ Next   
+    
 
 End Sub
 
@@ -91,7 +109,7 @@ Public Function FrameCount as Integer
  Dim a as byte = _framecount(0)
  Dim b as byte = _framecount(1)
  Dim c as integer 
-    c += (a << 8 * )
+    c += (a << 8 * b)
  Return c
 End Function
 
