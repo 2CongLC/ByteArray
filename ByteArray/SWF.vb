@@ -58,6 +58,7 @@ Public Property filesize as String
     End Get  
 End Property
 
+  
 Private Function CompressCWS as Byte()
 
 Try 
