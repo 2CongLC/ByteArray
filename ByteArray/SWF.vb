@@ -67,6 +67,17 @@ Public Function Filesize as integer
       Return _filesize
 End Function
 
+Public ReadOnly Property Width as integer
+    Get
+      Return mWidth
+    End Get
+End Property
+
+Public ReadOnly Property Heigth as integer
+    Get
+      Return mHeigth
+    End Get
+End Property
 
 
 Private Function GetNextByte(Byval buffer as byte()) as Byte
