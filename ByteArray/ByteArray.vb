@@ -494,10 +494,10 @@ Public Class ByteArray
 
     Public Function ReadObject() As Object
         If ObjectEncoding = 3 Then
-            Dim amf3 As AMF3Helper = New AMF3Helper(source)
+            Dim amf3 As AMF3 = New AMF3(source)
             Return amf3.ReadObject()
         Else
-            Dim amf0 As AMF0Helper = New AMF0Helper(source)
+            Dim amf0 As AMF0 = New AMF0(source)
             Return amf0.ReadObject()
         End If
     End Function
