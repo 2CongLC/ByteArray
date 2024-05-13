@@ -14,6 +14,8 @@ Private _framesize as byte()
 Private _framerate as byte()
 Private _framecount as byte()
 Private _tags as byte()
+Private mWidth as integer = 0
+Private mHeight as integer = 0
   
 
 Public Sub New(Byval buffer as Byte())
@@ -99,7 +101,14 @@ For numfield as integer = 0 to 4 - 1
         cb = 7
       end if
     End While
-    
+    value /=20
+    Select case numfield
+      Select 0
+        mWidth = value
+       Select 1
+        mWidth = value - mWidth
+       Select 2
+        
 
       
 
