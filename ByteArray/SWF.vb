@@ -19,9 +19,9 @@ Private _tags as byte()
 Public Sub New(Byval buffer as Byte())
     source = New ByteArray(buffer)
     
-    Dim header as ByteArray = New ByteArray()
-    header.WriteBytes(source,0,3) ' Offset = 0, Length = 3
-    _signature = header.toString()
+    Dim signature as ByteArray = New ByteArray()
+    signature.WriteBytes(source,0,3) ' Offset = 0, Length = 3
+    _signature = signature.toString()
 
     Dim version as ByteArray = New ByteArray()
     version.WriteBytes(source,3,1) ' Offset = 3, Length = 1
