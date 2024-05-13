@@ -67,9 +67,11 @@ End Function
 
 
 
-Private Function GetNextByte() as Byte
+Private Function GetNextByte(Byval buffer as byte()) as Byte
 Dim index as integer = 0
-    
+ Dim result as byte = buffer(index)
+    index +=1
+    Return result
 End Function    
 
     
