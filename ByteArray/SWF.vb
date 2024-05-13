@@ -49,6 +49,8 @@ If _signature = "FWS" Then
       Dim tags as ByteArray = New ByteArray()
       tags.WriteBytes(source,21)
       _tags = tags.ToArray()
+
+      Framesize()
       
 End if
       
