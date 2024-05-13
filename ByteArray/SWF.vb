@@ -10,6 +10,10 @@ Private source as ByteArray
 Private _signature as string
 Private _version as integer
 Private _fileSize as integer
+Private _recstructure as byte()
+Private _framerate as byte()
+Private _framecount as byte()
+Private _tags as byte()
   
 
 Public Sub New(Byval buffer as Byte())
@@ -27,7 +31,25 @@ Public Sub New(Byval buffer as Byte())
     filesize.WriteBytes(source,4,4) 'Offset = 4, Length = 4
     _filesize = filesize.toString()
     
+If _signature = "FWS" Then
+      Dim recstructure as ByteArray = New ByteArray()
+      recstructure.WriteBytes(source,8,9)
+      _recstructure = recstructure.ToArray()
 
+      Dim framerate as ByteArray = New ByteArray()
+      framerate.WriteBytes(source,17,2)
+      _framerate = framerate.ToArray()
+
+      Dim framecount as ByteArray = New ByteArray()
+      framecount.WriteBytes(source,19,2)
+      _framecount = framecount.ToArray()
+
+      Dim tags as ByteArray = New ByteArray()
+      tags.WriteBytes(source,21)
+      _tags = tags.ToArray()
+      
+End if
+      
     
 End Sub
 
