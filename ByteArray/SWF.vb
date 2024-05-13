@@ -91,6 +91,17 @@ For numfield as integer = 0 to 4 - 1
         End if
       b <<= 1
       b = b And 255
+      cb -=1
+      bitcount +=1
+
+      if cb < 0 then
+        b = GetNextByte(_framesize)
+        cb = 7
+      end if
+    End While
+    
+
+      
 
     
  Next   
