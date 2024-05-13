@@ -32,9 +32,9 @@ Public Sub New(Byval buffer as Byte())
     _filesize = filesize.toString()
     
 If _signature = "FWS" Then
-      Dim recstructure as ByteArray = New ByteArray()
-      recstructure.WriteBytes(source,8,9)
-      _recstructure = recstructure.ToArray()
+      Dim framesize as ByteArray = New ByteArray()
+      framesize.WriteBytes(source,8,9)
+      _framesize = framesize.ToArray()
 
       Dim framerate as ByteArray = New ByteArray()
       framerate.WriteBytes(source,17,2)
@@ -53,7 +53,7 @@ End if
     
 End Sub
 
-Public Property signature as String
+Public Property Signature as String
     Set (value as String)
       _signature = value
      End Set
@@ -62,7 +62,7 @@ Public Property signature as String
     End Get  
 End Property
 
-Public Property version as String
+Public Property Version as integer
     Set (value as String)
       _version = value
      End Set
@@ -71,7 +71,7 @@ Public Property version as String
     End Get  
 End Property
 
-Public Property filesize as String
+Public Property Filesize as integer
     Set (value as String)
       _filesize = value
      End Set
