@@ -65,10 +65,18 @@ Public Function Filesize as integer
       Return _filesize
 End Function
 
-Public Function FrameSize  as Rectangle
 
 
-End Function 
+Private Function GetNextByte() as Byte
+Dim index as integer = 0
+    
+End Function    
+
+    
+Private Sub FrameSize()
+
+
+End Sub
 
 Public Function FrameRate  as Double
  Dim a as Byte = _framerate(0)
