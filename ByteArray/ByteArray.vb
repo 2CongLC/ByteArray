@@ -240,10 +240,14 @@ Public Class ByteArray
         End If
     End Function
 
-    Public Function ReadByte() As SByte
+    Public Function ReadSByte() As SByte
         Dim buffer As SByte = CSByte(source.ReadByte)
         Return buffer
     End Function
+
+    Public Function ReadByte() as Byte
+         Return source.Readbyte
+     End Function                   
 
     Public Sub ReadBytes(bytes As ByteArray, offset As UInteger, length As UInteger)
         Dim content As Byte() = New Byte(length - 1) {}
