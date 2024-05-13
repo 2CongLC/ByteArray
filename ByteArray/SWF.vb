@@ -108,14 +108,11 @@ For numfield as integer = 0 to 4 - 1
        Select 1
         mWidth = value - mWidth
        Select 2
-        
-
-      
-
-    
+        mHeigth = value
+       Select 3
+        mHeigth = value - mHeigth  
+     End Select             
  Next   
-    
-
 End Sub
 
 Public Function FrameRate  as Double
