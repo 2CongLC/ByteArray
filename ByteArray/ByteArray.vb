@@ -509,8 +509,10 @@ Public Function TryGetXml(<out> ByRef output As XDocument) As Boolean
         
         Try
               source.Position = 0
-              Dim options as                                  
-              output = XDocument.Parse(source,                                  
+              Dim options as LoadOptions                               
+              output = XDocument.Parse(source,options.none)
+                                                
+              Return True                                  
         
         Catch ex as Exception     
             Return False
@@ -522,8 +524,9 @@ Public Function TryGetXml(<out> ByRef output As XDocument) As Boolean
         Try  
              source.Position = 0
              Dim options as JsonDocumentOptions                             
-             output = JsonDocument.Parse(source,options = Default)
-             Return True
+             output = JsonDocument.Parse(source)                                                                                    
+            
+             Return output.roo
              Catch ex as Exception
              Return False
          End Try 
