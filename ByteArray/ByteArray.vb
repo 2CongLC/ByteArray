@@ -268,6 +268,15 @@ Public Class ByteArray
         Return BitConverter.ToSingle(bytes, 0)
     End Function
 
+    Public Function ReadUInt24() As Integer
+         Dim bytes As Byte() = ReadBytesEndian(3)
+         Dim value As Integer = (bytes(0) << 16) Or (bytes(1) << 8) Or bytes(2)
+         Return value
+    End Function
+
+
+
+        
     Public Function ReadInt() As Integer
         Dim bytes As Byte() = ReadBytesEndian(4)
         Dim value As Integer = bytes(3) << 24 Or CInt(bytes(2)) << 16 Or CInt(bytes(1)) << 8 Or bytes(0)
