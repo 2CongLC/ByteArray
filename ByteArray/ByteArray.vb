@@ -18,12 +18,6 @@ Public Enum CompressionAlgorithm
     Zlib
     LZMA
 End Enum
-Public Enum ObjectEncodings
-    AMF0 = 0
-    AMF3 = 3
-    [DEFAULT] = 3
-End Enum
-
 
 Public Class ByteArray
 
@@ -64,14 +58,14 @@ Public Class ByteArray
     Private br As BinaryReader = Nothing
     Private bw As BinaryWriter = Nothing
     Private _endian As Endians = Nothing
-    Private _encoding As ObjectEncodings = Nothing
+    
 
     Public Sub New()
         source = New MemoryStream()
         br = New BinaryReader(source)
         bw = New BinaryWriter(source)
         _endian = Endians.LITTLE_ENDIAN
-        _encoding = ObjectEncodings.AMF3
+    
     End Sub
 
     Public Sub New(ByVal buffer As Byte(),
@@ -119,15 +113,6 @@ Public Class ByteArray
         End Set
         Get
             Return _endian
-        End Get
-    End Property
-
-    Public Property ObjectEncoding As ObjectEncodings
-        Set(value As ObjectEncodings)
-            _encoding = value
-        End Set
-        Get
-            Return _encoding
         End Get
     End Property
 
