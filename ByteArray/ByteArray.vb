@@ -539,40 +539,15 @@ Public Class ByteArray
 
 
 
-    Public Function TryGetJson(ByVal buffer As Byte(), ByRef output As JsonDocument) As Boolean
-
-
-        Dim ms As MemoryStream = New MemoryStream(buffer)
-        Dim d = New StreamReader(ms)
-        Dim s As String = d.ReadToEnd()
-
-        If String.IsNullOrWhiteSpace(s) Then
-            output = Nothing
-            Return False
-        End If
-
-        s = s.Trim()
-
-        If (s.StartsWith("{") AndAlso s.EndsWith("}")) OrElse (s.StartsWith("[") AndAlso s.EndsWith("]")) Then
-
-            Try
-                output = JsonDocument.Parse(s)
-                Return True
-            Catch jex As JsonException
-                output = Nothing
-                Return False
-            Catch ex As Exception
-                output = Nothing
-                Return False
-            End Try
-
-
-        Else
-            output = Nothing
-            Return False
-        End If
-
-        d.Close()
+    Public Function TryGetJson(<out>ByRef output As JsonDocument) As Boolean
+      
+        Try
+             output = JsonDocument.Parse(source)
+             Return True
+             Catch ex as JsonException
+             Return False
+         End Try 
+                                            
     End Function
 
 #End Region
