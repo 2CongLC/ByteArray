@@ -205,4 +205,60 @@ Public Class Form1
             MessageBox.Show(ex.ToString())
         End Try
     End Sub
+
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+        Try
+            OpenFileDialog1.Filter = "Flash File (*.swf)|*.swf|All Files (*.*)|*.*"
+            SaveFileDialog1.Filter = "Flash File (*.swf)|*.swf|All Files (*.*)|*.*"
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As SWF = New SWF(File.ReadAllBytes(OpenFileDialog1.FileName))
+                TextBox1.Text = source.Signature
+                TextBox2.Text = source.Version
+                TextBox3.Text = source.Filesize
+                TextBox4.Text = source.Width
+                TextBox5.Text = source.Heigth
+                TextBox6.Text = source.FrameRate
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+
+    End Sub
+
+    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+        Try
+            OpenFileDialog1.Filter = "Flash File (*.swf)|*.swf|All Files (*.*)|*.*"
+            SaveFileDialog1.Filter = "Flash File (*.swf)|*.swf|All Files (*.*)|*.*"
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As SWF = New SWF(File.ReadAllBytes(OpenFileDialog1.FileName))
+                source.Compress(SaveFileDialog1.FileName, SWF.CompressTionTypes.CWS)
+                MessageBox.Show("ok")
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
+        Try
+            OpenFileDialog1.Filter = "Flash File (*.swf)|*.swf|All Files (*.*)|*.*"
+            SaveFileDialog1.Filter = "Flash File (*.swf)|*.swf|All Files (*.*)|*.*"
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As SWF = New SWF(File.ReadAllBytes(OpenFileDialog1.FileName))
+                source.DeCompress(SaveFileDialog1.FileName)
+                MessageBox.Show("ok")
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
 End Class

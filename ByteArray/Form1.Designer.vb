@@ -34,6 +34,15 @@ Partial Class Form1
         Button8 = New Button()
         Button9 = New Button()
         Button10 = New Button()
+        Button11 = New Button()
+        TextBox1 = New TextBox()
+        TextBox2 = New TextBox()
+        TextBox3 = New TextBox()
+        TextBox4 = New TextBox()
+        TextBox5 = New TextBox()
+        TextBox6 = New TextBox()
+        Button12 = New Button()
+        Button13 = New Button()
         SuspendLayout()
         ' 
         ' Button1
@@ -134,11 +143,89 @@ Partial Class Form1
         Button10.Text = "UnCompress Flash ZWS"
         Button10.UseVisualStyleBackColor = True
         ' 
+        ' Button11
+        ' 
+        Button11.Location = New Point(547, 228)
+        Button11.Name = "Button11"
+        Button11.Size = New Size(184, 23)
+        Button11.TabIndex = 10
+        Button11.Text = "SWF Info"
+        Button11.UseVisualStyleBackColor = True
+        ' 
+        ' TextBox1
+        ' 
+        TextBox1.Location = New Point(561, 62)
+        TextBox1.Name = "TextBox1"
+        TextBox1.Size = New Size(148, 23)
+        TextBox1.TabIndex = 11
+        ' 
+        ' TextBox2
+        ' 
+        TextBox2.Location = New Point(561, 92)
+        TextBox2.Name = "TextBox2"
+        TextBox2.Size = New Size(148, 23)
+        TextBox2.TabIndex = 12
+        ' 
+        ' TextBox3
+        ' 
+        TextBox3.Location = New Point(561, 120)
+        TextBox3.Name = "TextBox3"
+        TextBox3.Size = New Size(148, 23)
+        TextBox3.TabIndex = 13
+        ' 
+        ' TextBox4
+        ' 
+        TextBox4.Location = New Point(561, 150)
+        TextBox4.Name = "TextBox4"
+        TextBox4.Size = New Size(66, 23)
+        TextBox4.TabIndex = 14
+        ' 
+        ' TextBox5
+        ' 
+        TextBox5.Location = New Point(633, 150)
+        TextBox5.Name = "TextBox5"
+        TextBox5.Size = New Size(76, 23)
+        TextBox5.TabIndex = 15
+        ' 
+        ' TextBox6
+        ' 
+        TextBox6.Location = New Point(561, 178)
+        TextBox6.Name = "TextBox6"
+        TextBox6.Size = New Size(148, 23)
+        TextBox6.TabIndex = 16
+        ' 
+        ' Button12
+        ' 
+        Button12.Location = New Point(547, 257)
+        Button12.Name = "Button12"
+        Button12.Size = New Size(80, 23)
+        Button12.TabIndex = 17
+        Button12.Text = "Compress"
+        Button12.UseVisualStyleBackColor = True
+        ' 
+        ' Button13
+        ' 
+        Button13.Location = New Point(633, 257)
+        Button13.Name = "Button13"
+        Button13.Size = New Size(98, 23)
+        Button13.TabIndex = 18
+        Button13.Text = "UnCompress"
+        Button13.UseVisualStyleBackColor = True
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(800, 450)
+        Controls.Add(Button13)
+        Controls.Add(Button12)
+        Controls.Add(TextBox6)
+        Controls.Add(TextBox5)
+        Controls.Add(TextBox4)
+        Controls.Add(TextBox3)
+        Controls.Add(TextBox2)
+        Controls.Add(TextBox1)
+        Controls.Add(Button11)
         Controls.Add(Button10)
         Controls.Add(Button9)
         Controls.Add(Button8)
@@ -155,6 +242,7 @@ Partial Class Form1
         StartPosition = FormStartPosition.CenterScreen
         Text = "Form1"
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents Button1 As Button
@@ -169,5 +257,14 @@ Partial Class Form1
     Friend WithEvents Button8 As Button
     Friend WithEvents Button9 As Button
     Friend WithEvents Button10 As Button
+    Friend WithEvents Button11 As Button
+    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents TextBox4 As TextBox
+    Friend WithEvents TextBox5 As TextBox
+    Friend WithEvents TextBox6 As TextBox
+    Friend WithEvents Button12 As Button
+    Friend WithEvents Button13 As Button
 
 End Class

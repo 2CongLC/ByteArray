@@ -9,11 +9,11 @@ Public Class SWF
 
     Private source As ByteArray
 
-    Private _signature As String
+    Private _signature As Byte()
 
-    Private _version As Integer
+    Private _version As Byte()
 
-    Private _fileSize As Integer
+    Private _fileSize As Byte()
 
     Private _framesize As Byte()
 
@@ -28,58 +28,77 @@ Public Class SWF
     Private mHeigth As Integer = 0
 
 
-    Public Sub New(Byval buffer as Byte())
-    source = New ByteArray(buffer)
-    
-    Dim signature as ByteArray = New ByteArray()
-    signature.WriteBytes(source,0,3) ' Offset = 0, Length = 3
-    _signature = signature.toString()
+    Public Sub New(ByVal buffer As Byte())
 
-    Dim version as ByteArray = New ByteArray()
-    version.WriteBytes(source,3,1) ' Offset = 3, Length = 1
-    _version = version.ToArray()(0)
+        source = New ByteArray(buffer)
 
-    Dim filesize as ByteArray = New ByteArray()
-    filesize.WriteBytes(source,4,4) 'Offset = 4, Length = 4
-    _filesize = filesize.toString()
+        Dim sign As ByteArray = New ByteArray()
 
-        If _signature = "FWS" Then
+        sign.WriteBytes(source, 0, 3) ' Offset = 0, Length = 3
 
-            Dim framesize As ByteArray = New ByteArray()
-            framesize.WriteBytes(source, 8, 9)
-            _framesize = framesize.ToArray()
+        _signature = sign.ToArray()
 
-            Dim framerate As ByteArray = New ByteArray()
-            framerate.WriteBytes(source, 17, 2)
-            _framerate = framerate.ToArray()
+        Dim ver As ByteArray = New ByteArray()
 
-            Dim framecount As ByteArray = New ByteArray()
-            framecount.WriteBytes(source, 19, 2)
-            _framecount = framecount.ToArray()
+        ver.WriteBytes(source, 3, 1) ' Offset = 3, Length = 1
+
+        _version = ver.ToArray()
+
+        Dim fsize As ByteArray = New ByteArray()
+
+        fsize.WriteBytes(source, 4, 4) 'Offset = 4, Length = 4
+
+        _fileSize = fsize.ToArray()
+
+
+        If signature = "FWS" Then
+            Dim frsize As ByteArray = New ByteArray()
+
+            frsize.WriteBytes(source, 8, 9)
+
+            _framesize = frsize.ToArray()
+
+            Dim frrate As ByteArray = New ByteArray()
+
+            frrate.WriteBytes(source, 17, 2)
+
+            _framerate = frrate.ToArray()
+
+            Dim frcount As ByteArray = New ByteArray()
+
+            frcount.WriteBytes(source, 19, 2)
+
+            _framecount = frcount.ToArray()
 
             Dim tags As ByteArray = New ByteArray()
+
             tags.WriteBytes(source, 21)
+
             _tags = tags.ToArray()
 
-
+            FrameSize()
         End If
 
-        FrameSize()
+
+
+
+
     End Sub
 
-Public Function Signature as String
-      Return _signature 
-End Function
 
-Public Function Version as integer
-      Return _version
-End Function
+    Public Function Signature() As String
+        Return Encoding.Default.GetString(_signature)
+    End Function
 
-Public Function Filesize as integer
-      Return _filesize
-End Function
+    Public Function Version() As Integer
+        Return _version(0)
+    End Function
 
-Public ReadOnly Property Width as integer
+    Public Function Filesize() As Integer
+        Return (_fileSize(0) & _fileSize(1) & _fileSize(2) & _fileSize(3)) / 1024
+    End Function
+
+    Public ReadOnly Property Width as integer
     Get
       Return mWidth
     End Get
@@ -142,44 +161,53 @@ End Function
         Next
     End Sub
 
-    Public Function FrameRate  as Double
- Dim a as Byte = _framerate(0)
- Dim b as Byte = _framerate(1)
- Dim c as Double = (a + b) / 100
-    Return c    
-End Function
-  
-Public Function FrameCount as Integer
- Dim a as byte = _framecount(0)
- Dim b as byte = _framecount(1)
- Dim c as integer 
-    c += (a << 8 * b)
- Return c
-End Function
+    Public Function FrameRate() As Double
+
+        Dim a As Byte = _framerate(0)
+        Dim b As Byte = _framerate(1)
+        Dim c As Double = (a + b) / 100
+        Return c
+
+    End Function
+
+    Public Function FrameCount() As Integer
+
+        Dim a As Byte = _framecount(0)
+        Dim b As Byte = _framecount(1)
+        Dim c As Integer
+        c += (a << 8 * b)
+        Return c
+
+    End Function
 
 
 
     Private Function CompressCWS() As Byte()
+
+        Dim fsize As ByteArray = New ByteArray()
+        fsize.WriteBytes(source, 4, 4) 'Offset = 4, Length = 4
         Dim data As ByteArray = New ByteArray()
         data.WriteBytes(source, 8)
         data.Compress()
         Dim buffer As ByteArray = New ByteArray()
         buffer.WriteMultiByte("CWS", "us-ascii")
         buffer.WriteByte(Version)
-        buffer.WriteByte(Filesize)
+        buffer.WriteBytes(fsize)
         buffer.WriteBytes(data)
         Return buffer.ToArray()
     End Function
 
     Public Function DeCompressCWS() As Byte()
 
+        Dim fsize As ByteArray = New ByteArray()
+        fsize.WriteBytes(source, 4, 4) 'Offset = 4, Length = 4
         Dim data As ByteArray = New ByteArray()
         data.WriteBytes(source, 8)
         data.Uncompress()
         Dim buffer As ByteArray = New ByteArray()
         buffer.WriteMultiByte("FWS", "us-ascii")
         buffer.WriteByte(Version)
-        buffer.WriteByte(Filesize)
+        buffer.WriteBytes(fsize)
         buffer.WriteBytes(data)
         Return buffer.ToArray()
 
@@ -187,25 +215,29 @@ End Function
 
     Public Function CompressZWS() As Byte()
 
+
+
         Dim data As ByteArray = New ByteArray()
-            data.WriteBytes(source, 8)
-            data.Compress(CompressionAlgorithm.LZMA)
-            Dim compressedLen As Long = data.BytesAvailable
+        data.WriteBytes(source, 8)
 
-            Dim lzmaprops As ByteArray = New ByteArray()
-            lzmaprops.WriteBytes(data, 0, 3)
-            Dim lzmadata As ByteArray = New ByteArray()
-            lzmadata.WriteBytes(data, 12)
+        data.Compress(CompressionAlgorithm.LZMA)
 
-            Dim buffer As ByteArray = New ByteArray()
-            buffer.WriteMultiByte("ZWS", "us-ascii")
-            buffer.WriteByte(Version)
-            buffer.WriteByte(Filesize)
-            buffer.WriteByte(compressedLen)
-            buffer.WriteBytes(lzmaprops)
-            buffer.WriteBytes(lzmadata)
+        Dim compressedLen As Long = data.BytesAvailable
 
-            Return buffer.ToArray()
+        Dim lzmaprops As ByteArray = New ByteArray()
+        lzmaprops.WriteBytes(data, 0, 3)
+        Dim lzmadata As ByteArray = New ByteArray()
+        lzmadata.WriteBytes(data, 12)
+
+        Dim buffer As ByteArray = New ByteArray()
+        buffer.WriteMultiByte("ZWS", "us-ascii")
+        buffer.WriteByte(Version)
+        buffer.WriteByte(Filesize)
+        buffer.WriteByte(compressedLen)
+        buffer.WriteBytes(lzmaprops)
+        buffer.WriteBytes(lzmadata)
+
+         Return buffer.ToArray()
 
     End Function
 
@@ -240,26 +272,26 @@ End Enum
 Public Sub Compress(Byval outFile as String,Byval CompressTionType as CompressTionTypes)
 
  If CompressTionType = CompressTionTypes.CWS Then
-      
-    If (_signature = "FWS") AndAlso (_version >= 6) Then
-      IO.File.WriteAllBytes(outFile, CompressCWS)
-    End if
-      
- Elseif CompressTionType = CompressTionTypes.ZWS Then
-  
-    If (_signature = "FWS") AndAlso (_version >=13) Then
-      IO.File.WriteAllBytes(outFile,CompressZWS) 
-    End if
-      
-  End if
+
+            If (Signature() = "FWS") AndAlso (Version() >= 6) Then
+                IO.File.WriteAllBytes(outFile, CompressCWS)
+            End If
+
+        ElseIf CompressTionType = CompressTionTypes.ZWS Then
+
+            If (Signature() = "FWS") AndAlso (Version() >= 13) Then
+                IO.File.WriteAllBytes(outFile, CompressZWS)
+            End If
+
+        End if
 
 End Sub
 
     Public Sub DeCompress(ByVal outFile As String)
 
-        If _signature = "CWS" Then
+        If Signature() = "CWS" Then
             IO.File.WriteAllBytes(outFile, DeCompressCWS)
-        ElseIf _signature = "ZWS" Then
+        ElseIf Signature = "ZWS" Then
             IO.File.WriteAllBytes(outFile, DeCompressZWS)
         End If
 
