@@ -5,6 +5,7 @@ Imports System.IO
 Imports System.IO.Compression
 Imports System.Runtime.Serialization.Json
 Imports SevenZip
+Imports System.Xml
 
 Public Enum Endians
     BIG_ENDIAN = 0
@@ -20,7 +21,7 @@ Public Enum ObjectEncodings
     AMF0 = 0
     AMF3 = 3
     [DEFAULT] = 3
- End Enum
+End Enum
 
 
 Public Class ByteArray
@@ -183,7 +184,7 @@ Public Class ByteArray
                 Dim coder As SevenZip.Compression.LZMA.Encoder = New SevenZip.Compression.LZMA.Encoder()
                 coder.SetCoderProperties(propIDs, properties)
                 coder.WriteCoderProperties(_outms)
-                _outms.Write(BitConverter.GetBytes(_inms.Length), 0, 8)     
+                _outms.Write(BitConverter.GetBytes(_inms.Length), 0, 8)
                 coder.Code(_inms, _outms, _inms.Length, -1, Nothing)
                 _outms.Flush()
                 source = _outms
@@ -244,10 +245,9 @@ Public Class ByteArray
         Dim buffer As SByte = CSByte(source.ReadByte)
         Return buffer
     End Function
-
-    Public Function ReadByte() as Byte
-         Return source.Readbyte
-     End Function                   
+    Public Function ReadByte() As Byte
+        Return source.ReadByte
+    End Function
 
     Public Sub ReadBytes(bytes As ByteArray, offset As UInteger, length As UInteger)
         Dim content As Byte() = New Byte(length - 1) {}
@@ -269,14 +269,14 @@ Public Class ByteArray
     End Function
 
     Public Function ReadUInt24() As Integer
-         Dim bytes As Byte() = ReadBytesEndian(3)
-         Dim value As Integer = (bytes(0) << 16) Or (bytes(1) << 8) Or bytes(2)
-         Return value
+        Dim bytes As Byte() = ReadBytesEndian(3)
+        Dim value As Integer = (bytes(0) << 16) Or (bytes(1) << 8) Or bytes(2)
+        Return value
     End Function
 
 
 
-        
+
     Public Function ReadInt() As Integer
         Dim bytes As Byte() = ReadBytesEndian(4)
         Dim value As Integer = bytes(3) << 24 Or CInt(bytes(2)) << 16 Or CInt(bytes(1)) << 8 Or bytes(0)
@@ -394,7 +394,7 @@ Public Class ByteArray
                 _outms.Flush()
                 _outms.Close()
                 _outms.Dispose()
-                _inms.close()               
+                _inms.Close()
                 Exit Select
         End Select
     End Sub
@@ -502,6 +502,41 @@ Public Class ByteArray
     End Sub
 
 
+#Region " object"
+
+
+    'https://codereview.stackexchange.com/questions/15100/checking-and-returning-xml-from-a-byte-array
+
+    Function TryGetXElement(body As Byte(), ByRef el As XElement) As Boolean
+        el = Nothing
+        ' if there is no data, this is not xml :)
+        If body Is Nothing OrElse body.Length = 0 Then
+            Return False
+        End If
+
+        Try
+            ' Load the data into a memory stream
+            Using ms As New MemoryStream(body)
+                Using sr As New StreamReader(ms)
+                    ' if the first character is not <, this can't be xml
+                    Dim firstChar As Char = ChrW(sr.Peek())
+                    If firstChar <> "<" Then
+                        Return False
+                    Else
+                        ' ultimately, we try to parse the XML
+                        el = XElement.Load(sr)
+                        Return True
+                    End If
+                End Using
+            End Using
+        Catch
+            ' if it failed, we suppose this is not XML
+            Return False
+        End Try
+    End Function
+
+
+#End Region
 
 
 End Class
