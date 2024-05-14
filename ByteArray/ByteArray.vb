@@ -508,11 +508,15 @@ Public Function TryGetXml(<out> ByRef output As XDocument) As Boolean
       
         Try  
              source.Position = 0
-             Dim options as JsonDocumentOptions                             
-             output = JsonDocument.Parse(source)                                                                                    
-            
-             Return output.roo
-             Catch ex as Exception
+             Dim options as JsonDocumentOptions =  New JsonDocumentOptions() With {
+               .CommentHandling = JsonCommentHandling.Skip }                         
+            output = JsonDocument.Parse(source,options)                                                                                    
+            Dim root as As JsonElement = output.RootElement
+            If root.ValueKind = JsonValueKind.Object Then 
+                   Return True
+             End if                                           
+             
+        Catch ex as Exception
              Return False
          End Try 
                                             
