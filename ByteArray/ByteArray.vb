@@ -508,30 +508,12 @@ Public Class ByteArray
 
     'https://codereview.stackexchange.com/questions/15100/checking-and-returning-xml-from-a-byte-array
 
-    Function TryGetXml(body As Byte(), ByRef el As XElement) As Boolean
-        el = Nothing
-        ' if there is no data, this is not xml :)
-        If body Is Nothing OrElse body.Length = 0 Then
-            Return False
-        End If
-
+    Function TryGetXml(<out> ByRef el As XElement) As Boolean
+        
         Try
-            ' Load the data into a memory stream
-            Using ms As New MemoryStream(body)
-                Using sr As New StreamReader(ms)
-                    ' if the first character is not <, this can't be xml
-                    Dim firstChar As Char = ChrW(sr.Peek())
-                    If firstChar <> "<" Then
-                        Return False
-                    Else
-                        ' ultimately, we try to parse the XML
-                        el = XElement.Load(sr)
-                        Return True
-                    End If
-                End Using
-            End Using
+        
         Catch
-            ' if it failed, we suppose this is not XML
+        
             Return False
         End Try
     End Function
