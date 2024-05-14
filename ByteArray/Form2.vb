@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports System.Text.Json
 Imports System.Xml
 
 Public Class Form2
@@ -9,7 +10,7 @@ Public Class Form2
                 Dim bytes As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
 
                 Dim x As XElement = Nothing
-                Dim a As Boolean = bytes.TryGetXElement(bytes.ToArray(), x)
+                Dim a As Boolean = bytes.TryGetXml(bytes.ToArray(), x)
 
 
                 If a Then
@@ -30,6 +31,29 @@ Public Class Form2
             End If
 
             MessageBox.Show("ok")
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Try
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim bytes As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+
+                Dim x As JsonDocument = Nothing
+                Dim a As Boolean = bytes.TryGetJson(bytes.ToArray(), x)
+
+
+
+                MessageBox.Show(a)
+
+
+
+            End If
+
+
         Catch ex As Exception
             MessageBox.Show(ex.ToString())
         End Try

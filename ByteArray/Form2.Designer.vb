@@ -25,6 +25,7 @@ Partial Class Form2
         Button1 = New Button()
         OpenFileDialog1 = New OpenFileDialog()
         SaveFileDialog1 = New SaveFileDialog()
+        Button2 = New Button()
         SuspendLayout()
         ' 
         ' Button1
@@ -44,11 +45,21 @@ Partial Class Form2
         ' 
         SaveFileDialog1.Filter = "All Files (*.*)|*.*"
         ' 
+        ' Button2
+        ' 
+        Button2.Location = New Point(225, 164)
+        Button2.Name = "Button2"
+        Button2.Size = New Size(75, 23)
+        Button2.TabIndex = 1
+        Button2.Text = "Button2"
+        Button2.UseVisualStyleBackColor = True
+        ' 
         ' Form2
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(800, 450)
+        Controls.Add(Button2)
         Controls.Add(Button1)
         Name = "Form2"
         Text = "Form2"
@@ -58,4 +69,5 @@ Partial Class Form2
     Friend WithEvents Button1 As Button
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents SaveFileDialog1 As SaveFileDialog
+    Friend WithEvents Button2 As Button
 End Class

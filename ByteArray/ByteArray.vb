@@ -6,6 +6,7 @@ Imports System.IO.Compression
 Imports System.Runtime.Serialization.Json
 Imports SevenZip
 Imports System.Xml
+Imports System.Runtime.InteropServices
 
 Public Enum Endians
     BIG_ENDIAN = 0
@@ -507,7 +508,7 @@ Public Class ByteArray
 
     'https://codereview.stackexchange.com/questions/15100/checking-and-returning-xml-from-a-byte-array
 
-    Function TryGetXElement(body As Byte(), ByRef el As XElement) As Boolean
+    Function TryGetXml(body As Byte(), ByRef el As XElement) As Boolean
         el = Nothing
         ' if there is no data, this is not xml :)
         If body Is Nothing OrElse body.Length = 0 Then
@@ -535,6 +536,44 @@ Public Class ByteArray
         End Try
     End Function
 
+
+
+
+    Public Function TryGetJson(ByVal buffer As Byte(), ByRef output As JsonDocument) As Boolean
+
+
+        Dim ms As MemoryStream = New MemoryStream(buffer)
+        Dim d = New StreamReader(ms)
+        Dim s As String = d.ReadToEnd()
+
+        If String.IsNullOrWhiteSpace(s) Then
+            output = Nothing
+            Return False
+        End If
+
+        s = s.Trim()
+
+        If (s.StartsWith("{") AndAlso s.EndsWith("}")) OrElse (s.StartsWith("[") AndAlso s.EndsWith("]")) Then
+
+            Try
+                output = JsonDocument.Parse(s)
+                Return True
+            Catch jex As JsonException
+                output = Nothing
+                Return False
+            Catch ex As Exception
+                output = Nothing
+                Return False
+            End Try
+
+
+        Else
+            output = Nothing
+            Return False
+        End If
+
+        d.Close()
+    End Function
 
 #End Region
 
