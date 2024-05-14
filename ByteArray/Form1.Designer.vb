@@ -43,6 +43,8 @@ Partial Class Form1
         TextBox6 = New TextBox()
         Button12 = New Button()
         Button13 = New Button()
+        Button14 = New Button()
+        Button15 = New Button()
         SuspendLayout()
         ' 
         ' Button1
@@ -149,7 +151,7 @@ Partial Class Form1
         Button11.Name = "Button11"
         Button11.Size = New Size(184, 23)
         Button11.TabIndex = 10
-        Button11.Text = "SWF Info"
+        Button11.Text = "FWS Info"
         Button11.UseVisualStyleBackColor = True
         ' 
         ' TextBox1
@@ -196,27 +198,47 @@ Partial Class Form1
         ' 
         ' Button12
         ' 
-        Button12.Location = New Point(547, 257)
+        Button12.Location = New Point(519, 257)
         Button12.Name = "Button12"
-        Button12.Size = New Size(80, 23)
+        Button12.Size = New Size(108, 23)
         Button12.TabIndex = 17
-        Button12.Text = "Compress"
+        Button12.Text = "CWS Compress"
         Button12.UseVisualStyleBackColor = True
         ' 
         ' Button13
         ' 
         Button13.Location = New Point(633, 257)
         Button13.Name = "Button13"
-        Button13.Size = New Size(98, 23)
+        Button13.Size = New Size(132, 23)
         Button13.TabIndex = 18
-        Button13.Text = "UnCompress"
+        Button13.Text = "CWS UnCompress"
         Button13.UseVisualStyleBackColor = True
+        ' 
+        ' Button14
+        ' 
+        Button14.Location = New Point(519, 286)
+        Button14.Name = "Button14"
+        Button14.Size = New Size(122, 23)
+        Button14.TabIndex = 19
+        Button14.Text = "ZWS Compress"
+        Button14.UseVisualStyleBackColor = True
+        ' 
+        ' Button15
+        ' 
+        Button15.Location = New Point(647, 286)
+        Button15.Name = "Button15"
+        Button15.Size = New Size(118, 23)
+        Button15.TabIndex = 20
+        Button15.Text = "ZWS Decompress"
+        Button15.UseVisualStyleBackColor = True
         ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(800, 450)
+        Controls.Add(Button15)
+        Controls.Add(Button14)
         Controls.Add(Button13)
         Controls.Add(Button12)
         Controls.Add(TextBox6)
@@ -266,5 +288,7 @@ Partial Class Form1
     Friend WithEvents TextBox6 As TextBox
     Friend WithEvents Button12 As Button
     Friend WithEvents Button13 As Button
+    Friend WithEvents Button14 As Button
+    Friend WithEvents Button15 As Button
 
 End Class

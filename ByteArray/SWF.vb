@@ -216,6 +216,8 @@ End Function
     Public Function CompressZWS() As Byte()
 
 
+        Dim fsize As ByteArray = New ByteArray()
+        fsize.WriteBytes(source, 4, 4) 'Offset = 4, Length = 4
 
         Dim data As ByteArray = New ByteArray()
         data.WriteBytes(source, 8)
@@ -232,7 +234,7 @@ End Function
         Dim buffer As ByteArray = New ByteArray()
         buffer.WriteMultiByte("ZWS", "us-ascii")
         buffer.WriteByte(Version)
-        buffer.WriteByte(Filesize)
+        buffer.WriteBytes(fsize)
         buffer.WriteByte(compressedLen)
         buffer.WriteBytes(lzmaprops)
         buffer.WriteBytes(lzmadata)
@@ -244,22 +246,16 @@ End Function
     Public Function DeCompressZWS() As Byte()
 
 
+        Dim fsize As ByteArray = New ByteArray()
+        fsize.WriteBytes(source, 4, 4) 'Offset = 4, Length = 4
         Dim data As ByteArray = New ByteArray()
-
         data.WriteBytes(source, 12)
-
         data.Uncompress(CompressionAlgorithm.LZMA)
-
         Dim buffer As ByteArray = New ByteArray()
-
         buffer.WriteMultiByte("FWS", "us-ascii")
-
         buffer.WriteByte(Version)
-
-        buffer.WriteByte(Filesize)
-
+        buffer.WriteBytes(fsize)
         buffer.WriteBytes(data)
-
         Return buffer.ToArray()
 
     End Function
@@ -271,7 +267,8 @@ End Enum
     
 Public Sub Compress(Byval outFile as String,Byval CompressTionType as CompressTionTypes)
 
- If CompressTionType = CompressTionTypes.CWS Then
+        If CompressTionType = CompressTionTypes.CWS Then
+
 
             If (Signature() = "FWS") AndAlso (Version() >= 6) Then
                 IO.File.WriteAllBytes(outFile, CompressCWS)

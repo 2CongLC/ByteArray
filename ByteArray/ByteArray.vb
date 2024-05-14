@@ -187,8 +187,8 @@ Public Class ByteArray
                 coder.Code(_inms, _outms, _inms.Length, -1, Nothing)
                 _outms.Flush()
                 source = _outms
-                ' _outms.Close()
-                ' _inms.Close()
+                _outms.Close()
+                _inms.Close()
                 Exit Select
         End Select
     End Sub
