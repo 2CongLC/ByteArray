@@ -496,9 +496,10 @@ Public Function TryGetXml(<out> ByRef output As XDocument) As Boolean
               source.Position = 0
               Dim options as LoadOptions                               
               output = XDocument.Parse(source,options.none)
-                                                
-              Return True                                  
-        
+             Dim root as XElement = output.root  
+               If Root.IsEmpty = False then                        
+                 Return True 
+               End if                                   
         Catch ex as Exception     
             Return False
         End Try
