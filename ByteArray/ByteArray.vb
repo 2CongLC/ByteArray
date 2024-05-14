@@ -391,9 +391,9 @@ Public Class ByteArray
                 coder.Code(_inms, _outms, compressedSize, outSize, Nothing)
                 source = _outms
                 source.Position = 0
-                _outms.flush()
-                _outms.dispose()
-                _outms.close()
+                _outms.Flush()
+                _outms.Close()
+                _outms.Dispose()
                 _inms.close()               
                 Exit Select
         End Select
@@ -501,26 +501,7 @@ Public Class ByteArray
         WriteBigEndian(bytes)
     End Sub
 
-    Public Function ReadObject() As Object
-        If ObjectEncoding = 3 Then
-            Dim amf3 As AMF3 = New AMF3(source)
-            Return amf3.ReadObject()
-        Else
-            Dim amf0 As AMF0 = New AMF0(source)
-            Return amf0.ReadObject()
-        End If
-    End Function
 
-    Public Sub WriteObject(obj As Object)
-        If ObjectEncoding = 3 Then
-            Dim amf3 As AMF3Helper = New AMF3Helper(source)
-            amf3.WriteObject(obj)
-        Else
-            Dim amf0 As AMF0Helper = New AMF0Helper(source)
-            amf0.WriteObject(obj)
-        End If
-
-    End Sub
 
 
 End Class
