@@ -505,28 +505,24 @@ Public Class ByteArray
 
 #Region " object"
 
-
-    'https://codereview.stackexchange.com/questions/15100/checking-and-returning-xml-from-a-byte-array
-
-    Function TryGetXml(<out> ByRef el As XElement) As Boolean
+Public Function TryGetXml(<out> ByRef el As XElement) As Boolean
         
         Try
+              source.Position = 0
+                                                
         
-        Catch
-        
+        Catch ex as Exception     
             Return False
         End Try
     End Function
 
-
-
-
     Public Function TryGetJson(<out>ByRef output As JsonDocument) As Boolean
       
-        Try
-             output = JsonDocument.Parse(source)
+        Try  
+             source.Position = 0                                   
+             output = JsonDocument.Parse(source,LoadOptions.None)
              Return True
-             Catch ex as JsonException
+             Catch ex as Exception
              Return False
          End Try 
                                             
