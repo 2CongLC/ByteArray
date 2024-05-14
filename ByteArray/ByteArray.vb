@@ -505,11 +505,12 @@ Public Class ByteArray
 
 #Region " object"
 
-Public Function TryGetXml(<out> ByRef el As XElement) As Boolean
+Public Function TryGetXml(<out> ByRef output As XDocument) As Boolean
         
         Try
               source.Position = 0
-                                                
+              Dim options as                                  
+              output = XDocument.Parse(source,                                  
         
         Catch ex as Exception     
             Return False
@@ -519,8 +520,9 @@ Public Function TryGetXml(<out> ByRef el As XElement) As Boolean
     Public Function TryGetJson(<out>ByRef output As JsonDocument) As Boolean
       
         Try  
-             source.Position = 0                                   
-             output = JsonDocument.Parse(source,LoadOptions.None)
+             source.Position = 0
+             Dim options as JsonDocumentOptions                             
+             output = JsonDocument.Parse(source,options = Default)
              Return True
              Catch ex as Exception
              Return False
