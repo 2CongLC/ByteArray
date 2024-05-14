@@ -83,7 +83,7 @@ Public Class ByteArray
         br = New BinaryReader(source)
         bw = New BinaryWriter(source)
         _endian = Endians.LITTLE_ENDIAN
-        _encoding = ObjectEncodings.AMF3
+        
     End Sub
 
     Public ReadOnly Property Length As UInteger
