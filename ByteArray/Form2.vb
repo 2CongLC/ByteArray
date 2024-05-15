@@ -15,9 +15,6 @@ Public Class Form2
 
 
 
-        Dim x As JsonDocument = Nothing
-                Dim a As Boolean = bytes.TryGetJson(x)
-
 
 
 

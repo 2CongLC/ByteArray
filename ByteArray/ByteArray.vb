@@ -7,6 +7,7 @@ Imports System.Runtime.Serialization.Json
 Imports SevenZip
 Imports System.Xml
 Imports System.Runtime.InteropServices
+Imports Lzma
 
 Public Enum Endians
     BIG_ENDIAN = 0
@@ -16,7 +17,7 @@ Public Enum CompressionAlgorithm
     Deflate
     Gzip
     Zlib
-    LZMA
+    Lzma
 End Enum
 
 Public Class ByteArray
@@ -58,14 +59,14 @@ Public Class ByteArray
     Private br As BinaryReader = Nothing
     Private bw As BinaryWriter = Nothing
     Private _endian As Endians = Nothing
-    
+
 
     Public Sub New()
         source = New MemoryStream()
         br = New BinaryReader(source)
         bw = New BinaryWriter(source)
         _endian = Endians.LITTLE_ENDIAN
-    
+
     End Sub
 
     Public Sub New(ByVal buffer As Byte(),
@@ -83,7 +84,7 @@ Public Class ByteArray
         br = New BinaryReader(source)
         bw = New BinaryWriter(source)
         _endian = Endians.LITTLE_ENDIAN
-        
+
     End Sub
 
     Public ReadOnly Property Length As UInteger
@@ -164,19 +165,16 @@ Public Class ByteArray
                     End Using
                 End Using
                 Exit Select
-            Case CompressionAlgorithm.LZMA
-                Dim _inms As MemoryStream = New MemoryStream(source.ToArray())
-                Dim _outms As MemoryStream = New MemoryStream()
-                Dim coder As SevenZip.Compression.LZMA.Encoder = New SevenZip.Compression.LZMA.Encoder()
-                coder.SetCoderProperties(propIDs, properties)
-                coder.WriteCoderProperties(_outms)
-                _outms.Write(BitConverter.GetBytes(_inms.Length), 0, 8)
-                coder.Code(_inms, _outms, _inms.Length, -1, Nothing)
-                _outms.Flush()
-                source = _outms
-                _outms.Close()
-                _inms.Close()
-                Exit Select
+            Case CompressionAlgorithm.Lzma
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using lzs As LzmaStream = New LzmaStream(_outms, CompressionMode.Compress)
+                            _inms.CopyTo(lzs)
+                        End Using
+                        source = _outms
+                    End Using
+                End Using
+                    Exit Select
         End Select
     End Sub
 
@@ -356,31 +354,17 @@ Public Class ByteArray
                     End Using
                 End Using
                 Exit Select
-            Case CompressionAlgorithm.LZMA
+            Case CompressionAlgorithm.Lzma
                 Position = 0
-                Dim _inms As MemoryStream = New MemoryStream(source.ToArray())
-                Dim coder As SevenZip.Compression.LZMA.Decoder = New SevenZip.Compression.LZMA.Decoder()
-                _inms.Seek(0, 0)
-                Dim _outms As MemoryStream = New MemoryStream()
-                Dim properties2 As Byte() = New Byte(4) {}
-                If _inms.Read(properties2, 0, 5) <> 5 Then Throw (New Exception("input .lzma is too short"))
-                Dim outSize As Long = 0
-
-                For i As Integer = 0 To 8 - 1
-                    Dim v As Integer = _inms.ReadByte()
-                    If v < 0 Then Throw (New Exception("Can't Read 1"))
-                    outSize = outSize Or CLng(v) << 8 * i
-                Next
-
-                coder.SetDecoderProperties(properties2)
-                Dim compressedSize As Long = _inms.Length - _inms.Position
-                coder.Code(_inms, _outms, compressedSize, outSize, Nothing)
-                source = _outms
-                source.Position = 0
-                _outms.Flush()
-                _outms.Close()
-                _outms.Dispose()
-                _inms.Close()
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using lzs As LzmaStream = New LzmaStream(_inms, CompressionMode.Decompress)
+                            lzs.CopyTo(_outms)
+                        End Using
+                        source = _outms
+                        source.Position = 0
+                    End Using
+                End Using
                 Exit Select
         End Select
     End Sub
