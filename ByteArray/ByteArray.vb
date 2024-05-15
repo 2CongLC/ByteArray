@@ -493,13 +493,17 @@ Public Class ByteArray
 Public Function TryGetXml(<out> ByRef output As XDocument) As Boolean
         
         Try
-              source.Position = 0
-              Dim options as LoadOptions                               
-              output = XDocument.Parse(source,options.none)
-             Dim root as XElement = output.root  
-               If Root.IsEmpty = False then                        
-                 Return True 
-               End if                                   
+
+            source.Position = 0
+            Dim options As LoadOptions = LoadOptions.None
+            output = XDocument.Load(source, options)
+            Dim root as XElement = output.root
+            If Root.IsEmpty = False Then
+                Return True
+            Else
+                Return False
+            End If
+
         Catch ex as Exception     
             Return False
         End Try
@@ -510,12 +514,14 @@ Public Function TryGetXml(<out> ByRef output As XDocument) As Boolean
         Try  
              source.Position = 0
              Dim options as JsonDocumentOptions =  New JsonDocumentOptions() With {
-               .CommentHandling = JsonCommentHandling.Skip }                         
-            output = JsonDocument.Parse(source,options)                                                                                    
-            Dim root as As JsonElement = output.RootElement
-            If root.ValueKind = JsonValueKind.Object Then 
-                   Return True
-             End if                                           
+               .CommentHandling = JsonCommentHandling.Skip }
+            output = JsonDocument.Parse(source, options)
+            Dim root As JsonElement = output.RootElement
+            If root.ValueKind = JsonValueKind.Object Then
+                Return True
+            Else
+                Return False
+            End if                                           
              
         Catch ex as Exception
              Return False

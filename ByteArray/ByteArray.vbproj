@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Reference Include="Lzma.net">
-      <HintPath>..\library\Lzma\bin\Debug\Lzma.net.dll</HintPath>
+      <HintPath>..\library\Lzma.net.dll</HintPath>
     </Reference>
   </ItemGroup>
 
