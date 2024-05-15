@@ -446,8 +446,7 @@ Public Class ByteArray
 
 #End Region
 
-
-#Region " object"
+#Region "Kiểm tra định dạng"
 
     Public Function TryGetXml(<out> ByRef output As XDocument) As Boolean
         
