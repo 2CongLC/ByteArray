@@ -18,6 +18,7 @@ Public Enum CompressionAlgorithm
     Gzip
     Zlib
     Lzma
+    Brotli
 End Enum
 
 Public Class ByteArray
@@ -174,8 +175,20 @@ Public Class ByteArray
                         source = _outms
                     End Using
                 End Using
-                    Exit Select
+                Exit Select
+            Case CompressionAlgorithm.Brotli
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using brs As IO.Compression.BrotliStream = New IO.Compression.BrotliStream(_outms, CompressionMode.Compress)
+                            _inms.CopyTo(brs)
+                        End Using
+                        source = _outms
+                    End Using
+                End Using
+                Exit Select
+
         End Select
+
     End Sub
 
     Public Sub deflate()
@@ -366,6 +379,20 @@ Public Class ByteArray
                     End Using
                 End Using
                 Exit Select
+            Case CompressionAlgorithm.Brotli
+                Position = 0
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using brs As IO.Compression.BrotliStream = New IO.Compression.BrotliStream(_inms, CompressionMode.Decompress)
+                            brs.CopyTo(_outms)
+                        End Using
+                        source = _outms
+                        source.Position = 0
+                    End Using
+                End Using
+                Exit Select
+
+
         End Select
     End Sub
 
