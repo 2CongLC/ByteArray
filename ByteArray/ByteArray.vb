@@ -23,39 +23,6 @@ End Enum
 
 Public Class ByteArray
 
-#Region "7zip"
-    Private dictionary As Integer = 1 << 21 ' 2 MB
-    Private posStateBits As Integer = 2
-    Private litContextBits As Integer = 3
-    Private litPosBits As Integer = 0
-    Private algorithm As Integer = 2
-
-    Private numFastBytes As Integer = 32
-    Private eos As Boolean = False
-    Private propIDs As SevenZip.CoderPropID() = {
-        SevenZip.CoderPropID.DictionarySize,
-        SevenZip.CoderPropID.PosStateBits,
-       SevenZip.CoderPropID.LitContextBits,
-        SevenZip.CoderPropID.LitPosBits,
-        SevenZip.CoderPropID.Algorithm,
-        SevenZip.CoderPropID.NumFastBytes,
-        SevenZip.CoderPropID.MatchFinder,
-        SevenZip.CoderPropID.EndMarker
-    }
-
-    Private properties As Object() = {
-        dictionary,
-        CType(posStateBits, Integer),
-        CType(litContextBits, Integer),
-        CType(litPosBits, Integer),
-        CType(algorithm, Integer),
-        CType(numFastBytes, Integer),
-        "bt4",
-        eos
-    }
-#End Region
-
-
     Private source As MemoryStream = Nothing
     Private br As BinaryReader = Nothing
     Private bw As BinaryWriter = Nothing
@@ -88,6 +55,8 @@ Public Class ByteArray
         _endian = Endians.LITTLE_ENDIAN
 
     End Sub
+
+#Region "Thuộc tính chung"
 
     Public ReadOnly Property Length As UInteger
         Get
@@ -132,6 +101,8 @@ Public Class ByteArray
     Public Function GetBuffer() As Byte()
         Return source.GetBuffer()
     End Function
+
+#End Region
 
 #Region "Nén và giải nén data"
 
