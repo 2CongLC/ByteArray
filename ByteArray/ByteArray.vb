@@ -402,11 +402,11 @@ End Function
             Return
         End If
         For i = bytes.Length - 1 To 0 Step -1
-            bw.WriteByte(bytes(i))
+            bw.Write(bytes(i))
         Next
     End Sub
 
-    Friend Sub WriteBytesEndian(bytes As Byte())
+    Public Sub WriteBytesEndian(bytes As Byte())
         If _endian = Endians.LITTLE_ENDIAN Then
             WriteLittleEndian(bytes)
         Else
@@ -415,11 +415,11 @@ End Function
     End Sub
 
     Public Sub WriteBoolean(value As Boolean)
-     bw.WriteByte(If(value, CByte(1), CByte(0)))
+     bw.Write(If(value, CByte(1), CByte(0)))
     End Sub
 
     Public Sub WriteByte(value As Byte)
-        bw.WriteByte(value)
+        bw.Write(value)
     End Sub
 
     Public Sub WriteBytes(bytes As ByteArray, Optional offset As UInteger = 0, Optional length As UInteger = 0)
