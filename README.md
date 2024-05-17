@@ -30,4 +30,12 @@ _ ....
   - Lzma
   - Brolti (rar5)
   ```
-* Lấy mã hash
+* Lấy mã hash :
+  ```
+  - md5
+  - sha1
+  - ....
+  ```
+  * Nhận dạng xml, json...
+  * 
+  
