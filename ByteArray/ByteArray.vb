@@ -268,7 +268,7 @@ Public Class ByteArray
 
     Public Sub ReadBytes(bytes As ByteArray, offset As UInteger, length As UInteger)
         Dim content As Byte() = New Byte(length - 1) {}
-        source.Read(content, offset, length)
+        br.Read(content, offset, length)
         bytes.WriteBytes(New ByteArray(content), 0, content.Length)
     End Sub
 
@@ -278,7 +278,7 @@ Public Class ByteArray
     End Function
 
     Public Function ReadBoolean() As Boolean
-        Return source.ReadByte = 1
+        Return br.ReadByte = 1
     End Function
 
     Public Function ReadDouble() As Double
@@ -298,7 +298,7 @@ Public Class ByteArray
     End Function
 
     Public Function ReadByte() As Byte
-        Return source.ReadByte
+        Return br.ReadByte
     End Function
 
     Public Function ReadSingle() As Single
