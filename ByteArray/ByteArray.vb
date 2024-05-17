@@ -322,7 +322,7 @@ Public Class ByteArray
         Return CUShort(((bytes(0) And &HFF) << 8) Or (bytes(1) And &HFF))
     End Function
 
-    Public Function ReadReverseInt() As Integer
+    Public Function ReadInteger() As Integer
         Dim bytes As Byte() = ReadBytesEndian(4)
         Dim value As Integer = bytes(3) << 24 Or CInt(bytes(2)) << 16 Or CInt(bytes(1)) << 8 Or bytes(0)
         Return value
