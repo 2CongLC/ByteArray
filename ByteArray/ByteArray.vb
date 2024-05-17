@@ -380,6 +380,11 @@ Public Function ReadString() As String
     Dim length As Integer = ReadUShort()
     Return ReadUTF(length)
 End Function
+
+   Public Function ReadLongString() as String
+        Dim length as integer = ReadInteger()
+        Return ReadUTF(length)
+   End Function                                     
                                     
 #End Region
 
