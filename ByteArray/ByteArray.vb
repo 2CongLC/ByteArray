@@ -293,7 +293,7 @@ Public Class ByteArray
     End Function
 
     Public Function ReadSByte() As SByte
-        Dim buffer As SByte = CSByte(source.ReadByte)
+        Dim buffer As SByte = CSByte(br.ReadByte)
         Return buffer
     End Function
 
