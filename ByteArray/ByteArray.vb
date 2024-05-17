@@ -389,7 +389,7 @@ End Function
         If bytes Is Nothing Then
             Return
         End If
-        source.Write(bytes, 0, bytes.Length)
+        bw.Write(bytes, 0, bytes.Length)
     End Sub
 
     Private Sub WriteBigEndian(bytes As Byte())
@@ -397,7 +397,7 @@ End Function
             Return
         End If
         For i = bytes.Length - 1 To 0 Step -1
-            source.WriteByte(bytes(i))
+            bw.WriteByte(bytes(i))
         Next
     End Sub
 
@@ -410,11 +410,11 @@ End Function
     End Sub
 
     Public Sub WriteBoolean(value As Boolean)
-        source.WriteByte(If(value, CByte(1), CByte(0)))
+     bw.WriteByte(If(value, CByte(1), CByte(0)))
     End Sub
 
     Public Sub WriteByte(value As Byte)
-        source.WriteByte(value)
+        bw.WriteByte(value)
     End Sub
 
     Public Sub WriteBytes(bytes As ByteArray, Optional offset As UInteger = 0, Optional length As UInteger = 0)
@@ -423,7 +423,7 @@ End Function
         If length = 0 Then
             length = currentlength
         End If
-        source.Write(bytes.ToArray(), offset, length)
+        bw.Write(bytes.ToArray(), offset, length)
     End Sub
 
     Public Sub WriteDouble(value As Double)
@@ -495,6 +495,33 @@ End Function
         bytes(2) = CByte(&HFF And value)
         WriteBigEndian(bytes)
     End Sub
+
+
+Private Sub WriteLongUTF(ByVal value As String)
+    Dim utf8Encoding As New UTF8Encoding(True, True)
+    Dim byteCount As UInteger = CUInt(utf8Encoding.GetByteCount(value))
+    Dim buffer As Byte() = New Byte(byteCount + 4 - 1) {}
+    'unsigned long (always 32 bit, big endian byte order)
+    buffer(0) = CByte((byteCount >> &H18) And &HFF)
+    buffer(1) = CByte((byteCount >> &H10) And &HFF)
+    buffer(2) = CByte((byteCount >> 8) And &HFF)
+    buffer(3) = CByte((byteCount And &HFF))
+    Dim bytesEncodedCount As Integer = utf8Encoding.GetBytes(value, 0, value.Length, buffer, 4)
+    If buffer.Length > 0 Then
+        bw.Write(buffer, 0, buffer.Length)
+    End If
+End Sub
+
+                              
+   Public Sub WriteString(ByVal value As String)
+    Dim utf8Encoding As New UTF8Encoding(True, True)
+    Dim byteCount As Integer = utf8Encoding.GetByteCount(value)
+    If byteCount < 65536 Then
+        WriteUTF(value)
+    Else
+        WriteLongUTF(value)
+    End If
+End Sub
 
 
 
