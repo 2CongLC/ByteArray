@@ -12,12 +12,21 @@
   - ReadBytes
   - ReadSingle (float)
   - ReadShort
-  - .....
+  - ReadReverseInt ( đảo ngược int)
+  - .......
   ```
   * Các phương thức ghi dữ liệu đầu ra :
 ```
 - WriteByte
 - WriteBytes
+- WriteReverseInt ( ghi đảo ngược int)
 ```
 * Nén dữ liệu : 
-  
+  ```
+  - Deflate
+  - Gzip
+  - Zlib
+  - Lzma
+  - Brolti (rar5)
+  ```
+* Lấy mã hash
