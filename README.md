@@ -64,4 +64,27 @@ If isXml = True Then
 IO.File.WriteAllText(SaveFileDialog1.FileName,xmldoc)
 
 ```
-* ....
+* Cắt dữ liệu bởi Offset, Length :
+```vbnet
+Dim header as ByteArray = New ByteArray()
+data.WriteBytes(source,0,3)
+```
+* Cắt dữ liệu bởi Offset :
+```vbnet
+Dim data as ByteArray = New ByteArray()
+data.WriteBytes(source,3)
+```
+* Xây dựng thành cấu trúc tệp tin mới
+```vbnet
+Dim md5 as string = source.md5hash()
+source.Compress(CompressionAlgorithm.Zlib)
+
+Dim build as ByteArray = New ByteArray()
+
+build.WriteMultiByte(md5,"us-ascii")
+build.WriteBytes(source)
+
+IO.File.WriteAllBytes(SaveFileDialog1.FileName,build.ToArray())
+```
+* Các ví dụ khác có trong source.
+
