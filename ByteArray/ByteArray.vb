@@ -678,7 +678,19 @@ End Sub
         End Using
         Return obj
     End Function
+                                                
+Public Function SerializeJson(Of T)(Optional Indented As Boolean = True) as String
+            Dim obj as T = Encoding.UTF8.GetString(source.ToArray())
+            Dim options As New JsonSerializerOptions With {.WriteIndented = Indented}
+            Dim result As String = JsonSerializer.Serialize(obj, options)
+            Return result
+    End Function
 
+Public Function DeSerializeJson(Of T)() As t
+            Dim obj As String = Encoding.UTF8.GetString(source.ToArray())
+            Dim result As t = JsonSerializer.Deserialize(Of t)(obj)
+            Return result
+    End Function
 
 
 
