@@ -324,7 +324,8 @@ Public Class ByteArray
 
     Public Function ReadInteger() As Integer
         Dim bytes As Byte() = ReadBytesEndian(4)
-        Dim value As Integer = bytes(3) << 24 Or CInt(bytes(2)) << 16 Or CInt(bytes(1)) << 8 Or bytes(0)
+        'Dim value As Integer = bytes(3) << 24 Or CInt(bytes(2)) << 16 Or CInt(bytes(1)) << 8 Or bytes(0)
+        Dim value As Integer = (bytes(0) << 24) Or (bytes(1) << 16) Or (bytes(2) << 8) Or bytes(3)
         Return value
     End Function
 
@@ -364,6 +365,22 @@ Public Class ByteArray
         Return value
     End Function
 
+ Public Function ReadReverseInt() As Integer
+    Dim bytes() As Byte = ReadBytesEndian(4)
+    Dim val As Integer = 0
+    val += bytes(3) << 24
+    val += bytes(2) << 16
+    val += bytes(1) << 8
+    val += bytes(0)
+    Return val
+End Function                             
+
+Public Function ReadString() As String
+    'Get the length of the string (first 2 bytes).
+    Dim length As Integer = ReadUShort()
+    Return ReadUTF(length)
+End Function
+                                    
 #End Region
 
 #Region "Ghi dữ liệu"
@@ -414,7 +431,7 @@ Public Class ByteArray
         WriteBytesEndian(bytes)
     End Sub
 
-    Public Sub WriteFloat(value As Single)
+    Public Sub WriteSingle(value As Single)
         Dim bytes As Byte() = BitConverter.GetBytes(value)
         WriteBytesEndian(bytes)
     End Sub
