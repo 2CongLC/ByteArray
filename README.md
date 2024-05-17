@@ -20,6 +20,7 @@
 - WriteByte
 - WriteBytes
 - WriteReverseInt ( ghi đảo ngược int)
+_ ....
 ```
 * Nén dữ liệu : 
   ```
