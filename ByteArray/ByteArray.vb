@@ -658,7 +658,25 @@ End Sub
         End Try
     End Function
 
+<Obsolete>
+    Public Function SerializeBinary(Of T)() As Byte()
+        Dim obj as T = Encoding.Default.GetString(source.ToArray())
+        Using memStream As New MemoryStream()
+            Dim binSerializer As New BinaryFormatter()
+            binSerializer.Serialize(memStream, obj)
+            Return memStream.ToArray()
+        End Using
+    End Function
 
+    <Obsolete>
+    Public Function DeserializeBinary(Of T)() As T
+        Dim obj As T = Nothing
+        Using memStream As New MemoryStream(source.ToArray())
+            Dim binSerializer As New BinaryFormatter()
+            obj = DirectCast(binSerializer.Deserialize(memStream), T)
+        End Using
+        Return obj
+    End Function
 
 
 
