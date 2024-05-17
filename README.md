@@ -43,7 +43,7 @@ Dim Bytes as Byte() = IO.File.ReadAllBytes(OpenFileDialog1.FileName)
 Dim source as ByteArray = New ByteArray(Bytes)
 ```
 * Nén dữ liệu :
-```sharp
+```vbnet
 source.Compress(CompressionAlgorithm.Zlib)
 ```
 * Lấy mã hash :
@@ -58,7 +58,7 @@ IO.File.WriteAlltext(SaveFileDialog1.FileName,bins)
 ```
 * Thử tìm dữ liệu :
 ```vbnet
-Dim xmldoc as XDocumnet 
+Dim xmldoc as XDocument
 Dim isXml as Boolean = source.TryGetXml(xmldoc)
 If isXml = True Then
 IO.File.WriteAllText(SaveFileDialog1.FileName,xmldoc)
