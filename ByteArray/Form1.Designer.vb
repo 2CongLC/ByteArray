@@ -142,18 +142,18 @@ Partial Class Form1
         ' 
         ' Button11
         ' 
-        Button11.Location = New Point(75, 22)
+        Button11.Location = New Point(17, 22)
         Button11.Name = "Button11"
-        Button11.Size = New Size(172, 23)
+        Button11.Size = New Size(143, 23)
         Button11.TabIndex = 10
         Button11.Text = "Try Get Xml"
         Button11.UseVisualStyleBackColor = True
         ' 
         ' Button12
         ' 
-        Button12.Location = New Point(75, 51)
+        Button12.Location = New Point(17, 51)
         Button12.Name = "Button12"
-        Button12.Size = New Size(172, 23)
+        Button12.Size = New Size(143, 23)
         Button12.TabIndex = 11
         Button12.Text = "Try Get Json"
         Button12.UseVisualStyleBackColor = True
