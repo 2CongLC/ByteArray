@@ -322,7 +322,7 @@ Public Class ByteArray
         Return CUShort(((bytes(0) And &HFF) << 8) Or (bytes(1) And &HFF))
     End Function
 
-    Public Function ReadInteger() As Integer
+    Public Function ReadInt() As Integer
         Dim bytes As Byte() = ReadBytesEndian(4)
         'Dim value As Integer = bytes(3) << 24 Or CInt(bytes(2)) << 16 Or CInt(bytes(1)) << 8 Or bytes(0)
         Dim value As Integer = (bytes(0) << 24) Or (bytes(1) << 16) Or (bytes(2) << 8) Or bytes(3)
@@ -382,7 +382,7 @@ Public Function ReadString() As String
 End Function
 
    Public Function ReadLongString() as String
-        Dim length as integer = ReadInteger()
+        Dim length As Integer = ReadInt()
         Return ReadUTF(length)
    End Function                                     
                                     
@@ -661,7 +661,7 @@ End Sub
 
 <Obsolete>
     Public Function SerializeBinary(Of T)() As Byte()
-        Dim obj as T = Encoding.Default.GetString(source.ToArray())
+        Dim obj As String = Encoding.UTF8.GetString(source.ToArray())
         Using memStream As New MemoryStream()
             Dim binSerializer As New BinaryFormatter()
             binSerializer.Serialize(memStream, obj)
@@ -680,8 +680,8 @@ End Sub
     End Function
                                                 
 Public Function SerializeJson(Of T)(Optional Indented As Boolean = True) as String
-            Dim obj as T = Encoding.UTF8.GetString(source.ToArray())
-            Dim options As New JsonSerializerOptions With {.WriteIndented = Indented}
+        Dim obj As String = Encoding.UTF8.GetString(source.ToArray())
+        Dim options As New JsonSerializerOptions With {.WriteIndented = Indented}
             Dim result As String = JsonSerializer.Serialize(obj, options)
             Return result
     End Function
