@@ -45,9 +45,14 @@ Partial Class Form1
         Button15 = New Button()
         Button14 = New Button()
         Button13 = New Button()
+        GroupBox4 = New GroupBox()
+        TextBox1 = New TextBox()
+        Button19 = New Button()
+        Button20 = New Button()
         GroupBox1.SuspendLayout()
         GroupBox2.SuspendLayout()
         GroupBox3.SuspendLayout()
+        GroupBox4.SuspendLayout()
         SuspendLayout()
         ' 
         ' Button1
@@ -257,11 +262,50 @@ Partial Class Form1
         Button13.Text = "Serializer Binary"
         Button13.UseVisualStyleBackColor = True
         ' 
+        ' GroupBox4
+        ' 
+        GroupBox4.Controls.Add(Button20)
+        GroupBox4.Controls.Add(TextBox1)
+        GroupBox4.Controls.Add(Button19)
+        GroupBox4.Location = New Point(356, 18)
+        GroupBox4.Name = "GroupBox4"
+        GroupBox4.Size = New Size(402, 226)
+        GroupBox4.TabIndex = 15
+        GroupBox4.TabStop = False
+        GroupBox4.Text = "GroupBox4"
+        ' 
+        ' TextBox1
+        ' 
+        TextBox1.Location = New Point(228, 130)
+        TextBox1.Name = "TextBox1"
+        TextBox1.Size = New Size(100, 23)
+        TextBox1.TabIndex = 1
+        TextBox1.Text = "Pack"
+        ' 
+        ' Button19
+        ' 
+        Button19.Location = New Point(24, 45)
+        Button19.Name = "Button19"
+        Button19.Size = New Size(186, 40)
+        Button19.TabIndex = 0
+        Button19.Text = "Build With md5 - Compress"
+        Button19.UseVisualStyleBackColor = True
+        ' 
+        ' Button20
+        ' 
+        Button20.Location = New Point(39, 122)
+        Button20.Name = "Button20"
+        Button20.Size = New Size(183, 36)
+        Button20.TabIndex = 2
+        Button20.Text = "Build With Signature"
+        Button20.UseVisualStyleBackColor = True
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(800, 500)
+        Controls.Add(GroupBox4)
         Controls.Add(GroupBox3)
         Controls.Add(GroupBox2)
         Controls.Add(GroupBox1)
@@ -273,6 +317,8 @@ Partial Class Form1
         GroupBox1.ResumeLayout(False)
         GroupBox2.ResumeLayout(False)
         GroupBox3.ResumeLayout(False)
+        GroupBox4.ResumeLayout(False)
+        GroupBox4.PerformLayout()
         ResumeLayout(False)
     End Sub
 
@@ -299,5 +345,9 @@ Partial Class Form1
     Friend WithEvents Button16 As Button
     Friend WithEvents Button17 As Button
     Friend WithEvents Button18 As Button
+    Friend WithEvents GroupBox4 As GroupBox
+    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents Button19 As Button
+    Friend WithEvents Button20 As Button
 
 End Class

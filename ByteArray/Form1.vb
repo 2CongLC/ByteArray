@@ -397,4 +397,60 @@ Public Class Form1
             MessageBox.Show(ex.ToString())
         End Try
     End Sub
+
+    Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+
+                Dim md5 As String = source.MD5Hash()
+
+                source.Compress(CompressionAlgorithm.Zlib)
+
+                Dim build As ByteArray = New ByteArray()
+                build.WriteMultiByte(md5, "us-ascii")
+                build.WriteBytes(source)
+
+                IO.File.WriteAllBytes(SaveFileDialog1.FileName, build.ToArray())
+                MessageBox.Show("Ok")
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+
+                Dim md5 As String = source.MD5Hash()
+
+                source.Compress(CompressionAlgorithm.Zlib)
+
+                Dim build As ByteArray = New ByteArray()
+                build.WriteMultiByte(TextBox1.Text, "us-ascii")
+                build.WriteBytes(source)
+
+                IO.File.WriteAllBytes(SaveFileDialog1.FileName, build.ToArray())
+                MessageBox.Show("Ok")
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
 End Class
