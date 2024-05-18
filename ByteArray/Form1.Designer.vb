@@ -36,11 +36,21 @@ Partial Class Form1
         Button10 = New Button()
         Button11 = New Button()
         Button12 = New Button()
+        GroupBox1 = New GroupBox()
+        GroupBox2 = New GroupBox()
+        GroupBox3 = New GroupBox()
+        Button15 = New Button()
+        Button14 = New Button()
+        Button13 = New Button()
+        Button16 = New Button()
+        GroupBox1.SuspendLayout()
+        GroupBox2.SuspendLayout()
+        GroupBox3.SuspendLayout()
         SuspendLayout()
         ' 
         ' Button1
         ' 
-        Button1.Location = New Point(29, 42)
+        Button1.Location = New Point(17, 22)
         Button1.Name = "Button1"
         Button1.Size = New Size(143, 23)
         Button1.TabIndex = 0
@@ -49,7 +59,7 @@ Partial Class Form1
         ' 
         ' Button2
         ' 
-        Button2.Location = New Point(178, 42)
+        Button2.Location = New Point(166, 22)
         Button2.Name = "Button2"
         Button2.Size = New Size(143, 23)
         Button2.TabIndex = 1
@@ -58,7 +68,7 @@ Partial Class Form1
         ' 
         ' Button3
         ' 
-        Button3.Location = New Point(29, 71)
+        Button3.Location = New Point(17, 51)
         Button3.Name = "Button3"
         Button3.Size = New Size(143, 26)
         Button3.TabIndex = 2
@@ -67,7 +77,7 @@ Partial Class Form1
         ' 
         ' Button4
         ' 
-        Button4.Location = New Point(178, 74)
+        Button4.Location = New Point(166, 54)
         Button4.Name = "Button4"
         Button4.Size = New Size(143, 23)
         Button4.TabIndex = 3
@@ -76,7 +86,7 @@ Partial Class Form1
         ' 
         ' Button5
         ' 
-        Button5.Location = New Point(29, 103)
+        Button5.Location = New Point(17, 83)
         Button5.Name = "Button5"
         Button5.Size = New Size(143, 23)
         Button5.TabIndex = 4
@@ -85,7 +95,7 @@ Partial Class Form1
         ' 
         ' Button6
         ' 
-        Button6.Location = New Point(178, 103)
+        Button6.Location = New Point(166, 83)
         Button6.Name = "Button6"
         Button6.Size = New Size(143, 23)
         Button6.TabIndex = 5
@@ -94,7 +104,7 @@ Partial Class Form1
         ' 
         ' Button7
         ' 
-        Button7.Location = New Point(29, 132)
+        Button7.Location = New Point(17, 112)
         Button7.Name = "Button7"
         Button7.Size = New Size(143, 23)
         Button7.TabIndex = 6
@@ -103,7 +113,7 @@ Partial Class Form1
         ' 
         ' Button8
         ' 
-        Button8.Location = New Point(178, 132)
+        Button8.Location = New Point(166, 112)
         Button8.Name = "Button8"
         Button8.Size = New Size(143, 23)
         Button8.TabIndex = 7
@@ -112,7 +122,7 @@ Partial Class Form1
         ' 
         ' Button9
         ' 
-        Button9.Location = New Point(29, 161)
+        Button9.Location = New Point(17, 141)
         Button9.Name = "Button9"
         Button9.Size = New Size(143, 23)
         Button9.TabIndex = 8
@@ -121,7 +131,7 @@ Partial Class Form1
         ' 
         ' Button10
         ' 
-        Button10.Location = New Point(178, 161)
+        Button10.Location = New Point(166, 141)
         Button10.Name = "Button10"
         Button10.Size = New Size(143, 23)
         Button10.TabIndex = 9
@@ -130,7 +140,7 @@ Partial Class Form1
         ' 
         ' Button11
         ' 
-        Button11.Location = New Point(340, 42)
+        Button11.Location = New Point(75, 22)
         Button11.Name = "Button11"
         Button11.Size = New Size(172, 23)
         Button11.TabIndex = 10
@@ -139,35 +149,108 @@ Partial Class Form1
         ' 
         ' Button12
         ' 
-        Button12.Location = New Point(340, 71)
+        Button12.Location = New Point(75, 51)
         Button12.Name = "Button12"
         Button12.Size = New Size(172, 23)
         Button12.TabIndex = 11
         Button12.Text = "Try Get Json"
         Button12.UseVisualStyleBackColor = True
         ' 
+        ' GroupBox1
+        ' 
+        GroupBox1.Controls.Add(Button2)
+        GroupBox1.Controls.Add(Button1)
+        GroupBox1.Controls.Add(Button3)
+        GroupBox1.Controls.Add(Button10)
+        GroupBox1.Controls.Add(Button4)
+        GroupBox1.Controls.Add(Button9)
+        GroupBox1.Controls.Add(Button5)
+        GroupBox1.Controls.Add(Button8)
+        GroupBox1.Controls.Add(Button6)
+        GroupBox1.Controls.Add(Button7)
+        GroupBox1.Location = New Point(12, 12)
+        GroupBox1.Name = "GroupBox1"
+        GroupBox1.Size = New Size(328, 232)
+        GroupBox1.TabIndex = 12
+        GroupBox1.TabStop = False
+        GroupBox1.Text = "Data Compress"
+        ' 
+        ' GroupBox2
+        ' 
+        GroupBox2.Controls.Add(Button11)
+        GroupBox2.Controls.Add(Button12)
+        GroupBox2.Location = New Point(12, 250)
+        GroupBox2.Name = "GroupBox2"
+        GroupBox2.Size = New Size(328, 100)
+        GroupBox2.TabIndex = 13
+        GroupBox2.TabStop = False
+        GroupBox2.Text = "Document"
+        ' 
+        ' GroupBox3
+        ' 
+        GroupBox3.Controls.Add(Button16)
+        GroupBox3.Controls.Add(Button15)
+        GroupBox3.Controls.Add(Button14)
+        GroupBox3.Controls.Add(Button13)
+        GroupBox3.Location = New Point(12, 356)
+        GroupBox3.Name = "GroupBox3"
+        GroupBox3.Size = New Size(328, 132)
+        GroupBox3.TabIndex = 14
+        GroupBox3.TabStop = False
+        GroupBox3.Text = "Serializator"
+        ' 
+        ' Button15
+        ' 
+        Button15.Location = New Point(17, 61)
+        Button15.Name = "Button15"
+        Button15.Size = New Size(116, 23)
+        Button15.TabIndex = 2
+        Button15.Text = "Serializer Json"
+        Button15.UseVisualStyleBackColor = True
+        ' 
+        ' Button14
+        ' 
+        Button14.Location = New Point(139, 32)
+        Button14.Name = "Button14"
+        Button14.Size = New Size(170, 23)
+        Button14.TabIndex = 1
+        Button14.Text = "DeSerializer Binary"
+        Button14.UseVisualStyleBackColor = True
+        ' 
+        ' Button13
+        ' 
+        Button13.Location = New Point(17, 32)
+        Button13.Name = "Button13"
+        Button13.Size = New Size(116, 23)
+        Button13.TabIndex = 0
+        Button13.Text = "Serializer Binary"
+        Button13.UseVisualStyleBackColor = True
+        ' 
+        ' Button16
+        ' 
+        Button16.Location = New Point(139, 61)
+        Button16.Name = "Button16"
+        Button16.Size = New Size(170, 23)
+        Button16.TabIndex = 3
+        Button16.Text = "DeSerializer Json"
+        Button16.UseVisualStyleBackColor = True
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(800, 450)
-        Controls.Add(Button12)
-        Controls.Add(Button11)
-        Controls.Add(Button10)
-        Controls.Add(Button9)
-        Controls.Add(Button8)
-        Controls.Add(Button7)
-        Controls.Add(Button6)
-        Controls.Add(Button5)
-        Controls.Add(Button4)
-        Controls.Add(Button3)
-        Controls.Add(Button2)
-        Controls.Add(Button1)
+        ClientSize = New Size(800, 500)
+        Controls.Add(GroupBox3)
+        Controls.Add(GroupBox2)
+        Controls.Add(GroupBox1)
         FormBorderStyle = FormBorderStyle.FixedSingle
         MaximizeBox = False
         Name = "Form1"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Form1"
+        GroupBox1.ResumeLayout(False)
+        GroupBox2.ResumeLayout(False)
+        GroupBox3.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
 
@@ -185,5 +268,12 @@ Partial Class Form1
     Friend WithEvents Button10 As Button
     Friend WithEvents Button11 As Button
     Friend WithEvents Button12 As Button
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents Button14 As Button
+    Friend WithEvents Button13 As Button
+    Friend WithEvents Button15 As Button
+    Friend WithEvents Button16 As Button
 
 End Class

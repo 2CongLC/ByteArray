@@ -1,4 +1,5 @@
 ﻿Imports System.Text.Json
+Imports System.Web
 
 Public Class Form1
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -258,6 +259,93 @@ Public Class Form1
                 Dim isxml As Boolean = source.TryGetJson(out)
 
                 MessageBox.Show(isxml)
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    <Obsolete>
+    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+                Dim result As Byte() = source.SerializeBinary(Of String)
+                IO.File.WriteAllBytes(SaveFileDialog1.FileName, result)
+                MessageBox.Show("Ok")
+
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    <Obsolete>
+    Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+                Dim result As String = source.DeserializeBinary(Of String)
+                IO.File.WriteAllText(SaveFileDialog1.FileName, result)
+                MessageBox.Show("Ok")
+
+
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+                Dim result As String = source.SerializeJson(Of String)
+                IO.File.WriteAllText(SaveFileDialog1.FileName, result)
+                MessageBox.Show("Ok")
+
+
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+                Dim result As String = source.DeSerializeJson(Of String)
+                IO.File.WriteAllText(SaveFileDialog1.FileName, result)
+                MessageBox.Show("Ok")
+
+
             End If
 
 
