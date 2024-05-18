@@ -39,10 +39,12 @@ Partial Class Form1
         GroupBox1 = New GroupBox()
         GroupBox2 = New GroupBox()
         GroupBox3 = New GroupBox()
+        Button18 = New Button()
+        Button17 = New Button()
+        Button16 = New Button()
         Button15 = New Button()
         Button14 = New Button()
         Button13 = New Button()
-        Button16 = New Button()
         GroupBox1.SuspendLayout()
         GroupBox2.SuspendLayout()
         GroupBox3.SuspendLayout()
@@ -188,6 +190,8 @@ Partial Class Form1
         ' 
         ' GroupBox3
         ' 
+        GroupBox3.Controls.Add(Button18)
+        GroupBox3.Controls.Add(Button17)
         GroupBox3.Controls.Add(Button16)
         GroupBox3.Controls.Add(Button15)
         GroupBox3.Controls.Add(Button14)
@@ -198,6 +202,33 @@ Partial Class Form1
         GroupBox3.TabIndex = 14
         GroupBox3.TabStop = False
         GroupBox3.Text = "Serializator"
+        ' 
+        ' Button18
+        ' 
+        Button18.Location = New Point(139, 90)
+        Button18.Name = "Button18"
+        Button18.Size = New Size(170, 23)
+        Button18.TabIndex = 5
+        Button18.Text = "DeSerializer Xml"
+        Button18.UseVisualStyleBackColor = True
+        ' 
+        ' Button17
+        ' 
+        Button17.Location = New Point(17, 90)
+        Button17.Name = "Button17"
+        Button17.Size = New Size(116, 23)
+        Button17.TabIndex = 4
+        Button17.Text = "Serializer Xml"
+        Button17.UseVisualStyleBackColor = True
+        ' 
+        ' Button16
+        ' 
+        Button16.Location = New Point(139, 61)
+        Button16.Name = "Button16"
+        Button16.Size = New Size(170, 23)
+        Button16.TabIndex = 3
+        Button16.Text = "DeSerializer Json"
+        Button16.UseVisualStyleBackColor = True
         ' 
         ' Button15
         ' 
@@ -225,15 +256,6 @@ Partial Class Form1
         Button13.TabIndex = 0
         Button13.Text = "Serializer Binary"
         Button13.UseVisualStyleBackColor = True
-        ' 
-        ' Button16
-        ' 
-        Button16.Location = New Point(139, 61)
-        Button16.Name = "Button16"
-        Button16.Size = New Size(170, 23)
-        Button16.TabIndex = 3
-        Button16.Text = "DeSerializer Json"
-        Button16.UseVisualStyleBackColor = True
         ' 
         ' Form1
         ' 
@@ -275,5 +297,7 @@ Partial Class Form1
     Friend WithEvents Button13 As Button
     Friend WithEvents Button15 As Button
     Friend WithEvents Button16 As Button
+    Friend WithEvents Button17 As Button
+    Friend WithEvents Button18 As Button
 
 End Class
