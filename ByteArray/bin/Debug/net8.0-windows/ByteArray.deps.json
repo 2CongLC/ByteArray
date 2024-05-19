@@ -9,7 +9,8 @@
       "ByteArray/1.0.0": {
         "dependencies": {
           "Lzma.net": "2.0.2.0",
-          "Snappier": "1.0.0.0"
+          "Snappier": "1.0.0.0",
+          "ZstdNet": "1.4.5.0"
         },
         "runtime": {
           "ByteArray.dll": {}
@@ -30,6 +31,14 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "ZstdNet/1.4.5.0": {
+        "runtime": {
+          "ZstdNet.dll": {
+            "assemblyVersion": "1.4.5.0",
+            "fileVersion": "1.4.5.0"
+          }
+        }
       }
     }
   },
@@ -45,6 +54,11 @@
       "sha512": ""
     },
     "Snappier/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ZstdNet/1.4.5.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

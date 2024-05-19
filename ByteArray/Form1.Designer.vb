@@ -37,6 +37,8 @@ Partial Class Form1
         Button11 = New Button()
         Button12 = New Button()
         GroupBox1 = New GroupBox()
+        Button27 = New Button()
+        Button26 = New Button()
         Button25 = New Button()
         GroupBox2 = New GroupBox()
         GroupBox3 = New GroupBox()
@@ -55,7 +57,7 @@ Partial Class Form1
         Button23 = New Button()
         Button22 = New Button()
         Button21 = New Button()
-        Button26 = New Button()
+        Button28 = New Button()
         GroupBox1.SuspendLayout()
         GroupBox2.SuspendLayout()
         GroupBox3.SuspendLayout()
@@ -173,6 +175,8 @@ Partial Class Form1
         ' 
         ' GroupBox1
         ' 
+        GroupBox1.Controls.Add(Button28)
+        GroupBox1.Controls.Add(Button27)
         GroupBox1.Controls.Add(Button26)
         GroupBox1.Controls.Add(Button25)
         GroupBox1.Controls.Add(Button2)
@@ -191,6 +195,24 @@ Partial Class Form1
         GroupBox1.TabIndex = 12
         GroupBox1.TabStop = False
         GroupBox1.Text = "Data Compress"
+        ' 
+        ' Button27
+        ' 
+        Button27.Location = New Point(17, 199)
+        Button27.Name = "Button27"
+        Button27.Size = New Size(143, 23)
+        Button27.TabIndex = 12
+        Button27.Text = "Compress Zstd"
+        Button27.UseVisualStyleBackColor = True
+        ' 
+        ' Button26
+        ' 
+        Button26.Location = New Point(166, 170)
+        Button26.Name = "Button26"
+        Button26.Size = New Size(143, 23)
+        Button26.TabIndex = 11
+        Button26.Text = "Decompress Snappy"
+        Button26.UseVisualStyleBackColor = True
         ' 
         ' Button25
         ' 
@@ -368,14 +390,14 @@ Partial Class Form1
         Button21.Text = "ToBase64String"
         Button21.UseVisualStyleBackColor = True
         ' 
-        ' Button26
+        ' Button28
         ' 
-        Button26.Location = New Point(166, 170)
-        Button26.Name = "Button26"
-        Button26.Size = New Size(143, 23)
-        Button26.TabIndex = 11
-        Button26.Text = "Decompress Snappy"
-        Button26.UseVisualStyleBackColor = True
+        Button28.Location = New Point(175, 199)
+        Button28.Name = "Button28"
+        Button28.Size = New Size(134, 23)
+        Button28.TabIndex = 13
+        Button28.Text = "Decompress Zstd"
+        Button28.UseVisualStyleBackColor = True
         ' 
         ' Form1
         ' 
@@ -435,5 +457,7 @@ Partial Class Form1
     Friend WithEvents Button24 As Button
     Friend WithEvents Button25 As Button
     Friend WithEvents Button26 As Button
+    Friend WithEvents Button27 As Button
+    Friend WithEvents Button28 As Button
 
 End Class

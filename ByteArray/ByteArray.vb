@@ -11,6 +11,7 @@ Imports System.Runtime.InteropServices
 Imports SevenZip
 Imports Lzma
 Imports Snappier
+Imports ZstdNet
 
 Public Enum Endians
     BIG_ENDIAN = 0
@@ -23,6 +24,7 @@ Public Enum CompressionAlgorithm
     Lzma
     Brotli
     Snappy
+    Zstd
 End Enum
 
 Public Class ByteArray
@@ -172,13 +174,24 @@ Public Class ByteArray
             Case CompressionAlgorithm.Snappy
                 Using _inms As MemoryStream = New MemoryStream(source.ToArray())
                     Using _outms As MemoryStream = New MemoryStream()
-                        Using brs As SnappyStream = New SnappyStream(_outms, CompressionMode.Compress)
-                            _inms.CopyTo(brs)
+                        Using sns As SnappyStream = New SnappyStream(_outms, CompressionMode.Compress)
+                            _inms.CopyTo(sns)
                         End Using
                         source = _outms
                     End Using
                 End Using
                 Exit Select
+            Case CompressionAlgorithm.Zstd
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using zts As ZstdNet.CompressionStream = New CompressionStream(_outms)
+                            _inms.CopyTo(zts)
+                        End Using
+                        source = _outms
+                    End Using
+                End Using
+                Exit Select
+
 
         End Select
 
@@ -250,14 +263,27 @@ Public Class ByteArray
                 Position = 0
                 Using _inms As MemoryStream = New MemoryStream(source.ToArray())
                     Using _outms As MemoryStream = New MemoryStream()
-                        Using brs As SnappyStream = New SnappyStream(_inms, CompressionMode.Decompress)
-                            brs.CopyTo(_outms)
+                        Using sns As SnappyStream = New SnappyStream(_inms, CompressionMode.Decompress)
+                            sns.CopyTo(_outms)
                         End Using
                         source = _outms
                         source.Position = 0
                     End Using
                 End Using
                 Exit Select
+            Case CompressionAlgorithm.Zstd
+                Position = 0
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using zst As ZstdNet.DecompressionStream = New DecompressionStream(_inms)
+                            zst.CopyTo(_outms)
+                        End Using
+                        source = _outms
+                        source.Position = 0
+                    End Using
+                End Using
+                Exit Select
+
 
         End Select
     End Sub
