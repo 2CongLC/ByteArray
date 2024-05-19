@@ -588,13 +588,13 @@ End Sub
         Return DirectCast(System.ComponentModel.TypeDescriptor.GetConverter(GetType(Bitmap)).ConvertFrom(data), Bitmap)
     End Function
 
-    Public Function ConvertToHex() As String
+    Public Function ConvertToHexString() As String
         Return String.Join("", source.ToArray().Select(Function(by) by.ToString("X2")))
     End Function
 
-    Public Function ConvertFromHex() As Byte()
-                                                    
-        Dim hexstring as String = Encoding.ASCII.GetString(source.ToArray())
+    Public Function ConvertFromHexString() As Byte()
+
+        Dim hexstring As String = Encoding.ASCII.GetString(source.ToArray())
         Dim NumberChars As Integer = hexstring.Length
         Dim bytes As Byte() = New Byte(NumberChars \ 2 - 1) {}
         For i As Integer = 0 To NumberChars - 1 Step 2
@@ -602,14 +602,14 @@ End Sub
         Next
         Return bytes
     End Function
-                                            
-Public Function ConvertToBase64String() as String
+
+    Public Function ConvertToBase64String() as String
       Return Convert.ToBase64String(source.ToArray())
  End Function
                                             
- Public Function ConvertFromBase64String() as  Byte()                                          
-  Return Convert.FromBase64String(Encoding.UTF8.GetString(source.ToArray())
-End Function
+ Public Function ConvertFromBase64String() as  Byte()
+        Return Convert.FromBase64String(Encoding.UTF8.GetString(source.ToArray()))
+    End Function
 
 
 #End Region

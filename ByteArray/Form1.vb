@@ -453,4 +453,88 @@ Public Class Form1
             MessageBox.Show(ex.ToString())
         End Try
     End Sub
+
+    Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+                Dim result As String = source.ConvertToBase64String()
+
+                IO.File.WriteAllText(SaveFileDialog1.FileName, result)
+                MessageBox.Show("Ok")
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    Private Sub Button22_Click(sender As Object, e As EventArgs) Handles Button22.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+                Dim result As Byte() = source.ConvertFromBase64String()
+
+                IO.File.WriteAllBytes(SaveFileDialog1.FileName, result)
+                MessageBox.Show("Ok")
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    Private Sub Button23_Click(sender As Object, e As EventArgs) Handles Button23.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+                Dim result As String = source.ConvertToHexString
+
+                IO.File.WriteAllText(SaveFileDialog1.FileName, result)
+                MessageBox.Show("Ok")
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    Private Sub Button24_Click(sender As Object, e As EventArgs) Handles Button24.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+                Dim result As Byte() = source.ConvertFromHexString
+
+                IO.File.WriteAllBytes(SaveFileDialog1.FileName, result)
+                MessageBox.Show("Ok")
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
 End Class
