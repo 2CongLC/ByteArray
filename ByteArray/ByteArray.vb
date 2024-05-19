@@ -328,7 +328,7 @@ Public Class ByteArray
         Return value
     End Function
 
-    Public Function ReadUInteger() As UInteger
+    Public Function ReadUInt() As UInteger
         Dim bytes As Byte() = ReadBytesEndian(4)
         Return BitConverter.ToUInt32(bytes, 0)
     End Function
@@ -383,7 +383,12 @@ End Function
    Public Function ReadLongString() as String
         Dim length As Integer = ReadInt()
         Return ReadUTF(length)
-   End Function                                     
+   End Function 
+
+    Public Function ReadChars(Byval count as Integer) as Char()
+       Return br.readchars(count)
+     End Function                                   
+                                    
                                     
 #End Region
 
