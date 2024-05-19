@@ -29,6 +29,8 @@ _ ....
   - Zlib
   - Lzma
   - Brolti (rar5)
+  - Snappy (google)
+  - zstd
 ```
 * Lấy mã hash :
   ```
@@ -36,7 +38,13 @@ _ ....
   - sha1
   - ....
   ```
-* Nhận dạng xml, json...
+* Chuyển đổi dữ liệu :
+  ```
+  - Convert to HexString
+  - Convert to Base64String
+  ```
+* Nhận dạng dữ liệu : xml, json
+   
 # Cách dùng :
 ```vbnet
 Dim Bytes as Byte() = IO.File.ReadAllBytes(OpenFileDialog1.FileName)
