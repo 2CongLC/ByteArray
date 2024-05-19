@@ -293,8 +293,7 @@ Public Class ByteArray
     End Function
 
     Public Function ReadSByte() As SByte
-        Dim buffer As SByte = CSByte(br.ReadByte)
-        Return buffer
+        Return br.ReadSByte
     End Function
 
     Public Function ReadByte() As Byte
