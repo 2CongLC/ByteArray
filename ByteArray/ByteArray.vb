@@ -594,7 +594,7 @@ End Sub
 
     Public Function ConvertFromHex() As Byte()
                                                     
-        Dim hexstring as String = Encoding.UTF8.GetString(source.ToArray())
+        Dim hexstring as String = Encoding.ASCII.GetString(source.ToArray())
         Dim NumberChars As Integer = hexstring.Length
         Dim bytes As Byte() = New Byte(NumberChars \ 2 - 1) {}
         For i As Integer = 0 To NumberChars - 1 Step 2
