@@ -37,6 +37,7 @@ Partial Class Form1
         Button11 = New Button()
         Button12 = New Button()
         GroupBox1 = New GroupBox()
+        Button25 = New Button()
         GroupBox2 = New GroupBox()
         GroupBox3 = New GroupBox()
         Button18 = New Button()
@@ -54,6 +55,7 @@ Partial Class Form1
         Button23 = New Button()
         Button22 = New Button()
         Button21 = New Button()
+        Button26 = New Button()
         GroupBox1.SuspendLayout()
         GroupBox2.SuspendLayout()
         GroupBox3.SuspendLayout()
@@ -171,6 +173,8 @@ Partial Class Form1
         ' 
         ' GroupBox1
         ' 
+        GroupBox1.Controls.Add(Button26)
+        GroupBox1.Controls.Add(Button25)
         GroupBox1.Controls.Add(Button2)
         GroupBox1.Controls.Add(Button1)
         GroupBox1.Controls.Add(Button3)
@@ -187,6 +191,15 @@ Partial Class Form1
         GroupBox1.TabIndex = 12
         GroupBox1.TabStop = False
         GroupBox1.Text = "Data Compress"
+        ' 
+        ' Button25
+        ' 
+        Button25.Location = New Point(17, 170)
+        Button25.Name = "Button25"
+        Button25.Size = New Size(143, 23)
+        Button25.TabIndex = 10
+        Button25.Text = "Compress Snappy"
+        Button25.UseVisualStyleBackColor = True
         ' 
         ' GroupBox2
         ' 
@@ -355,6 +368,15 @@ Partial Class Form1
         Button21.Text = "ToBase64String"
         Button21.UseVisualStyleBackColor = True
         ' 
+        ' Button26
+        ' 
+        Button26.Location = New Point(166, 170)
+        Button26.Name = "Button26"
+        Button26.Size = New Size(143, 23)
+        Button26.TabIndex = 11
+        Button26.Text = "Decompress Snappy"
+        Button26.UseVisualStyleBackColor = True
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -411,5 +433,7 @@ Partial Class Form1
     Friend WithEvents Button22 As Button
     Friend WithEvents Button23 As Button
     Friend WithEvents Button24 As Button
+    Friend WithEvents Button25 As Button
+    Friend WithEvents Button26 As Button
 
 End Class

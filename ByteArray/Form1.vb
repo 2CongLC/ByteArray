@@ -537,4 +537,48 @@ Public Class Form1
             MessageBox.Show(ex.ToString())
         End Try
     End Sub
+
+    Private Sub Button25_Click(sender As Object, e As EventArgs) Handles Button25.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+
+                source.Compress(CompressionAlgorithm.Snappy)
+                IO.File.WriteAllBytes(SaveFileDialog1.FileName, source.ToArray())
+
+                MessageBox.Show("ok")
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
+
+    Private Sub Button26_Click(sender As Object, e As EventArgs) Handles Button26.Click
+        Try
+            OpenFileDialog1.Filter = "All Files(*.*)|*.*"
+            SaveFileDialog1.Filter = "All Files(*.*)|*.*"
+
+
+            If OpenFileDialog1.ShowDialog = DialogResult.OK AndAlso SaveFileDialog1.ShowDialog = DialogResult.OK Then
+
+                Dim source As ByteArray = New ByteArray(IO.File.ReadAllBytes(OpenFileDialog1.FileName))
+
+                source.Uncompress(CompressionAlgorithm.Snappy)
+                IO.File.WriteAllBytes(SaveFileDialog1.FileName, source.ToArray())
+
+                MessageBox.Show("ok")
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString())
+        End Try
+    End Sub
 End Class

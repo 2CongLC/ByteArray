@@ -4,12 +4,13 @@ Imports System.Text.Json
 Imports System.IO
 Imports System.IO.Compression
 Imports System.Runtime.Serialization.Json
-Imports SevenZip
-Imports System.Xml
-Imports System.Runtime.InteropServices
-Imports Lzma
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Security.Cryptography
+Imports System.Xml
+Imports System.Runtime.InteropServices
+Imports SevenZip
+Imports Lzma
+Imports Snappier
 
 Public Enum Endians
     BIG_ENDIAN = 0
@@ -21,6 +22,7 @@ Public Enum CompressionAlgorithm
     Zlib
     Lzma
     Brotli
+    Snappy
 End Enum
 
 Public Class ByteArray
@@ -167,6 +169,16 @@ Public Class ByteArray
                     End Using
                 End Using
                 Exit Select
+            Case CompressionAlgorithm.Snappy
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using brs As SnappyStream = New SnappyStream(_outms, CompressionMode.Compress)
+                            _inms.CopyTo(brs)
+                        End Using
+                        source = _outms
+                    End Using
+                End Using
+                Exit Select
 
         End Select
 
@@ -227,6 +239,18 @@ Public Class ByteArray
                 Using _inms As MemoryStream = New MemoryStream(source.ToArray())
                     Using _outms As MemoryStream = New MemoryStream()
                         Using brs As IO.Compression.BrotliStream = New IO.Compression.BrotliStream(_inms, CompressionMode.Decompress)
+                            brs.CopyTo(_outms)
+                        End Using
+                        source = _outms
+                        source.Position = 0
+                    End Using
+                End Using
+                Exit Select
+            Case CompressionAlgorithm.Snappy
+                Position = 0
+                Using _inms As MemoryStream = New MemoryStream(source.ToArray())
+                    Using _outms As MemoryStream = New MemoryStream()
+                        Using brs As SnappyStream = New SnappyStream(_inms, CompressionMode.Decompress)
                             brs.CopyTo(_outms)
                         End Using
                         source = _outms
