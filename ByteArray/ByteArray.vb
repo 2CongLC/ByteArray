@@ -602,9 +602,14 @@ End Sub
         Next
         Return bytes
     End Function
-
-
-
+                                            
+Public Function ConvertToBase64String() as String
+      Return Convert.ToBase64String(source.ToArray())
+ End Function
+                                            
+ Public Function ConvertFromBase64String() as  Byte()                                          
+  Return Convert.FromBase64String(Encoding.UTF8.GetString(source.ToArray())
+End Function
 
 
 #End Region
